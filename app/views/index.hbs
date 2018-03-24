@@ -1,0 +1,41 @@
+<h1>{{title}}</h1>
+
+<h3>Search for an event below:</h3>
+<input type="text" id="search">
+<button id="submit">Search</button>
+
+<h3>Results:</h3> <span id="loader"></span>
+<table style="width:100%" id="results">
+  <tr>
+    <th align="left">Name</th>
+    <th align="left">Date</th> 
+    <th align="left">Free?</th>
+  </tr>
+</table>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  document.getElementById("submit").addEventListener("click", function(){
+    document.getElementById("loader").innerHTML = "Loading...";
+    document.getElementById("results").innerHTML = "<tr> <th align='left'>Name</th> <th align='left'>Date</th> <th align='left'>Free?</th> </tr>"
+    var queryData = document.getElementById("search").value;
+    axios.post('/query', {
+      query: encodeURI(queryData)
+    })
+    .then(function (response) {
+      console.log(response.data.events);
+      var table = document.getElementById("results");
+      var html = "<tr> <th align='left'>Name</th> <th align='left'>Date</th> <th align='left'>Free?</th> </tr>"
+      response.data.events.forEach(function(event){
+        html += "<tr> <td>" + event.name.text + "</td><td>" + (new Date(event.start.utc)).toLocaleDateString() + "</td><td>" + event.is_free + "</td></tr>"
+      })
+      table.innerHTML = html;
+      document.getElementById("loader").innerHTML = ""
+    })
+    .catch(function (error) {
+      console.log(error);
+      alert("Error! Please check console!")
+      document.getElementById("loader").innerHTML = ""
+    });
+  });
+</script>
