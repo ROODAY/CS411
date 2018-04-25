@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
   mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, client) {
     if(err) throw err;
 
-    let db = client.db('dbname')
+    let db = client.db(process.env.MONGODB);
     let songs = db.collection('songs');
 
     songs.find({ weeksAtOne : { $gte: 10 } }).sort({ decade: 1 }).toArray(function (err, docs) {

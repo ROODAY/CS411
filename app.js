@@ -66,7 +66,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, client) {
 
   if(err) throw err;
 
-  let db = client.db('dbname')
+  let db = client.db(process.env.MONGODB);
   let songs = db.collection('songs');
   songs.insert(seedData, function(err, result) {
 
@@ -102,7 +102,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, client) {
         });
       }
     );
-    
+
   });
 });
 
