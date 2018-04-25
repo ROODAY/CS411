@@ -1,3 +1,3 @@
-# CS 411 A3
+# Trippppr
 
 Rudhra Raveendran, Lucy Zhan, Nick Pearce, Teng Xu
