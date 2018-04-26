@@ -28,7 +28,7 @@
     document.getElementById("loader").innerHTML = "Loading...";
     document.getElementById("results").innerHTML = "<tr> <th align='left'>Name</th> <th align='left'>Date</th> <th align='left'>Free?</th> </tr>"
     var queryData = document.getElementById("search").value;
-    axios.post('/query', {
+    axios.post('/events', {
       query: encodeURI(queryData)
     })
     .then(function (response) {
@@ -48,3 +48,18 @@
     });
   });
 </script>
+{{#if userData}}
+  <script>
+    userObj = {{{userData}}};
+    console.log(userObj);
+    axios.post('/users', {
+      userData: userObj
+    })
+    .then(function (res) {
+      console.log(res);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+  </script>
+{{/if}}
