@@ -1,8 +1,13 @@
 <h1>{{title}}</h1>
+{{#if user}}
+  <h2>Hello, {{user.displayName}}!</h2>
+{{/if}}
 
-<p>{{user}}</p>
-
+{{#if user}}
+<button><a href="/auth/logout">Logout</a></button>
+{{else}}
 <button><a href="/auth/login">Login</a></button>
+{{/if}}
 
 <h3>Search for an event below:</h3>
 <input type="text" id="search">
