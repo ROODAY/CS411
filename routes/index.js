@@ -4,11 +4,9 @@ module.exports = function(app, express, passport) {
   /* GET home page. */
   router.get('/', function(req, res, next) {
     if (req.user) {
-      console.log(req.user)
-      res.render('index', { title: 'Travel App Prototype', user: req.user, userData: JSON.stringify(req.user)});
+      res.render('index', { title: 'Trippppr', user: req.user, userData: JSON.stringify(req.user)});
     } else {
-      console.log("sad boy")
-      res.render('index', { title: 'Travel App Prototype' });
+      res.render('index', { title: 'Trippppr | Login' });
     }
   });
 
