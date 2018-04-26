@@ -8,6 +8,7 @@ Will be made as tables in MongoDB
 - String: Email *
 - String: Hashed Password *
 - String: Current Location
+- Number: UID
 - Object: Travel Preferences
 	- Number: Distance Limit
 	- String: Preferred Days of Week/Time

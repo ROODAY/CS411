@@ -6,4 +6,16 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.get('/:userId', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+router.get('/:userId/travelPreferences', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+router.get('/:userId/trips', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
 module.exports = router;
