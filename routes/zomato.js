@@ -1,52 +1,26 @@
 module.exports = function(app, express, passport) {
 	const router = express.Router();
-	var zomato = require('zomato');
-	var client = zomato.createClient({
-	userKey: Z_USERKEY
-	});
-
-	router.get('/', function(req, res){
-		var city = req.params.cityid;
-		client.getCollections({
-		city_id:"1", //id of the city for which collections are needed 
-		lat:"28.613939", //latitude 
-		lon:"77.209021", //longitude 
-		count:"5" // number of maximum result to display 
-		}, function(err, result){
-			if(!err){
-			  res.send(result);
-			}else {
-			  res.send(err);
-			}
+	var axios = require('axios');
+	
+	//search for city_id, input is a cityname, return zomato collections in that city
+	router.post('/', function(req, res){
+		axios.get('https://developers.zomato.com/api/v2.1/locations?query=' + req.body.query, {headers: { 'user-key': '34ffc8f7c3a06bd652a07922726d8ed0' }} )
+		.then(function (response) {
+			var cityid = JSON.stringify(response.data.location_suggestions[0].city_id);
+		  	axios.get('https://developers.zomato.com/api/v2.1/collections?city_id=' + cityid, {headers: { 'user-key': '34ffc8f7c3a06bd652a07922726d8ed0' }} )
+			.then(function (response) {
+			  res.send(response.data);
+			})
+			.catch(function (error) {
+			  console.log(error);
+			  res.send(error);
+			})
+		})
+		.catch(function (error) {
+		  console.log(error);
+		  res.send(error);
 		});
 	})
 	
-	router.get('/:id', function(req, res){
-		var id = req.params.id;
-		client.getCollections({
-		city_id: id, //id of the city for which collections are needed 
-		count:"5" // number of maximum result to display 
-		}, function(err, result){
-			if(!err){
-			  res.send(result);
-			}else {
-			  res.send(err);
-			}
-		});
-	})
-	
-	router.get('/:city', function(req, res){
-		var city = req.params.city;
-		client.getCities({
-		q: 'Boston'
-		}, function(err, result){
-			if(!err){
-			  res.send(result);
-			}else {
-			  res.send(err);
-			}
-		});
-	})
-
   return router;
 }

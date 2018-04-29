@@ -27,14 +27,12 @@ var indexRouter = require('./routes/index')(app, express, passport);
 var authRouter = require('./routes/auth')(app, express, passport);
 var usersRouter = require('./routes/users')(app, express, passport);
 var eventsRouter = require('./routes/events')(app, express, passport);
-var eventRouter = require('./routes/event')(app, express, passport);
 var zomatoRouter = require('./routes/zomato')(app, express, passport);
 
 app.use('/', indexRouter);
 app.use('/events', eventsRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
-app.use('/event', eventRouter);
 app.use('/zomato', zomatoRouter);
 
 // catch 404 and forward to error handler
