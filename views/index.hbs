@@ -1,15 +1,54 @@
-<div class="headline">
-  <h1>{{title}}</h1>
-  {{#if user}}
-    <h2>Hello, {{user.displayName}}!</h2></div>
-  {{/if}}
-
 <div class="login">
   {{#if user}}
-  <button><a href="/auth/logout">Logout</a></button>
+  <button><a href="/auth/logout">Facebook Logout</a></button>
   {{else}}
-  <button><a href="/auth/login">Login</a></button>
+  <button><a href="/auth/login">Facebook Login</a></button>
   {{/if}}
+</div>
+
+<div class="header">
+  <div class="headline">
+    <h1>{{title}}</h1>
+    {{#if user}}
+      <h2>Hello, {{user.displayName}}!</h2>
+    {{/if}}
+  </div>
+
+  <div class="imageslideshow">
+
+    <div class="images fade">
+      <img src="photos/london.jpg" style="width:100%" alt="london"/>
+    </div>
+
+    <div class="images fade">
+      <img src="photos/italy.jpg" style="width:100%" alt="italy"/>
+    </div>
+
+    <div class="images fade">
+      <img src="photos/singapore.jpg" style="width:100%" alt="singapore"/>
+    </div>
+
+    <div class="images fade">
+    <img src="photos/sanfran.jpg" style="width:100%" alt="san francisco"/>
+    </div>
+
+    <div class="images fade"> 
+    <img src="photos/newyork.jpg" style="width:100%" alt="new york"/>
+    </div>
+
+    <div class="images fade"> 
+    <img src="photos/japan.jpg" style="width:100%" alt="japan"/> 
+    </div>
+
+    <div class="images fade"> 
+    <img src="photos/bali.jpg" style="width:100%" alt="bali"/> 
+    </div>
+
+    <div class="images fade"> 
+    <img src="photos/australia.jpg" style="width:100%" alt="australia"/> 
+    </div>
+
+  </div>
 </div>
 
 <div class="searchevent">
@@ -18,14 +57,17 @@
   <button id="submit">Search</button>
 </div>
 
-<h3>Results:</h3> <span id="loader"></span>
-<table style="width:100%" id="results">
-  <tr>
-    <th align="left">Name</th>
-    <th align="left">Date</th> 
-    <th align="left">Free?</th>
-  </tr>
-</table>
+<!--
+<div class=output>
+  <h3>Results:</h3> <span id="loader"></span>
+  <table style="width:100%" id="results">
+    <tr>
+      <th align="left">Name</th>
+      <th align="left">Date</th> 
+      <th align="left">Free?</th>
+    </tr>
+  </table>
+</div>-->
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
@@ -68,3 +110,28 @@
     });
   </script>
 {{/if}}
+
+
+
+
+
+
+
+
+
+<script>
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+    var i;
+    var slides = document.getElementsByClassName("images");
+    for (i = 0; i < slides.length; i++) {
+       slides[i].style.display = "none";  
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {slideIndex = 1}    
+    slides[slideIndex-1].style.display = "block"; 
+    setTimeout(showSlides, 6000); 
+}
+</script>
