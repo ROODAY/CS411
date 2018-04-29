@@ -6,9 +6,21 @@ body {
 }
 
 .header {
-	margin-top: 30px;
+	margin-top: 0px;
 	border: 0.5px solid white;
 	position: relative;
+}
+
+.maintitle {
+	position: absolute;
+	padding-top: 30px;
+	text-align: center;
+	font-family: 'Delius Unicase', sans-serif;
+	font-size: 50px;
+	color: black;
+	left: 0;
+	right: 0;
+	margin: auto;
 }
 
 .headline {
@@ -112,6 +124,11 @@ body {
 
 
 .output {
-	position: relative;
-	bottom: 0;
+	text-align: center;
+	margin-top: 200px;
+}
+
+.output h3 {
+	font-size: 30px;
+
 }
