@@ -35,7 +35,7 @@ module.exports = function(app, express, passport) {
 		});
 	})
 	
-	router.get('、:city', function(req, res){
+	router.get('/:city', function(req, res){
 		var city = req.params.city;
 		client.getCities({
 		q: 'Boston'
