@@ -11,41 +11,35 @@ body {
 	position: relative;
 }
 
-.maintitle {
-	position: absolute;
-	padding-top: 30px;
-	text-align: center;
-	font-family: 'Delius Unicase', sans-serif;
-	font-size: 50px;
+.nav {
+	padding: 15px;
+}
+
+.nav ul {
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav li {
+	font-size: 20px;
+	display: inline;
+	padding: 6px;
+}
+
+.nav a:link, a:visited, a:active {
 	color: black;
-	left: 0;
-	right: 0;
-	margin: auto;
+	text-decoration: none;
 }
 
-.headline {
-	position: absolute;
-	margin: 0 0 0 10px;
-	padding: 0;
-	z-index: 10;
-	color: black;
-}
-
-.headline h1 {
-	font-size: 25px;
-	padding-bottom: 0;
-	margin-bottom: 3px;
-}
-
-.headline h2 {
-	margin-top: 0;
-	padding-top: 0;
-	font-size: 22px;
+#name {
+	font-size: 30px;
+	padding-right: 25px;
 }
 
 .login {
 	position: fixed;
-	top: 45px;
+	top: 20px;
 	right: 10px;
 	z-index: 10;
 }
@@ -58,6 +52,7 @@ body {
 .login button {
 	background-color: #3b5998;
 	font-size: 20px;
+	font-family: "Helvetica", sans-serif;
 	border: 2px solid #3b5998;
 	padding: 5px 10px;
 	border-radius: 8px;
@@ -66,9 +61,13 @@ body {
 .imageslideshow {
   max-width: 200%;
   position: absolute;
-  margin: 0;
+  margin: 0 0 0 0;
   padding: 0;
   z-index: -1;
+}
+
+.imageslideshow img {
+	height: 40%;
 }
 
 .fade {
@@ -89,46 +88,42 @@ body {
 }
 
 .searchevent {
-	margin-top: 400px;
+	margin-top: 450px;
 	text-align: center;
 	position: relative;
 	color: black;
-	padding-top: 10px;
+	padding-top: 30px;
 	padding-bottom: 30px;
 	margin-left: 27%;
 	margin-right: 27%;
 	border-radius: 10px;
 }
 
-.searchevent h3 {
-	font-size: 28px;
-	margin-bottom: 10px;
-}
-
 #search {
-	font-size: 18px;
+	font-size: 14px;
 	width: 70%;
 	height: 30px;
 	border: 1px solid #bfbfbf;
 	border-radius: 10px;
 	padding: 2px 8px;
-	margin-right: 6px;
+	margin-right: 2px;
 }
 
 #submit {
 	border: 1px solid #bfbfbf;
-	border-radius: 10px;
+	border-radius: 6px;
 	padding: 8px 15px;
 	font-size: 15px;
 }
 
 
-.output {
+.events {
 	text-align: center;
-	margin-top: 200px;
+	margin-top: 100px;
+	padding-left: 40px;
 }
 
-.output h3 {
+.events h3 {
 	font-size: 30px;
-
+	text-align: left;
 }

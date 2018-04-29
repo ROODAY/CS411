@@ -1,3 +1,5 @@
+
+
 <div class="login">
   {{#if user}}
   <button><a href="/auth/logout">Facebook Logout</a></button>
@@ -7,15 +9,14 @@
 </div>
 
 <div class="header">
-  <div class="headline">
-    <h1>{{title}}</h1>
-    {{#if user}}
-      <h2>Hello, {{user.displayName}}!</h2>
-    {{/if}}
-  </div>
-
-  <div class="maintitle">
-    <h1>TRIPPPPR</h1>
+  <div class="nav">
+    <ul>
+      <li id="name">Trippppr</li>
+      <li><a href="../routes/index.js">home</a></li>
+      {{#if user}}
+        <li>{{user.displayName}}!</li>
+      {{/if}}
+    </ul>
   </div>
 
   <div class="imageslideshow">
@@ -56,22 +57,34 @@
 </div>
 
 <div class="searchevent">
-  <h3>Enter location/date:</h3>
-  <input type="text" id="search">
+  <input type="text" id="search" placeholder="Enter location and date (ex. boston july 20, canada)">
   <button id="submit">Search</button>
 </div>
 
+<div class="results"></div>
 
-<div class=output>
-  <h3>EVENTS</h3> <span id="loader"></span>
-  <table style="width:100%" id="results">
-    <tr>
-      <th>Name</th>
-      <th>Date</th> 
-      <th>Free?</th>
-    </tr>
-  </table>
+  <div class="events">
+    <h3>EVENTS</h3> <span id="loader"></span>
+    <table style="width:100%" id="results">
+      <tr>
+        <th>Name</th>
+        <th>Date</th> 
+        <th>Free?</th>
+      </tr>
+    </table>
+  </div>
+
+  <div class="restaurants">
+
+  </div>
+
+  <div class="pois">
+
+  </div>
+
 </div>
+
+
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
