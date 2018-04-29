@@ -1,17 +1,22 @@
-<h1>{{title}}</h1>
-{{#if user}}
-  <h2>Hello, {{user.displayName}}!</h2>
-{{/if}}
+<div class="headline">
+  <h1>{{title}}</h1>
+  {{#if user}}
+    <h2>Hello, {{user.displayName}}!</h2></div>
+  {{/if}}
 
-{{#if user}}
-<button><a href="/auth/logout">Logout</a></button>
-{{else}}
-<button><a href="/auth/login">Login</a></button>
-{{/if}}
+<div class="login">
+  {{#if user}}
+  <button><a href="/auth/logout">Logout</a></button>
+  {{else}}
+  <button><a href="/auth/login">Login</a></button>
+  {{/if}}
+</div>
 
-<h3>Search for an event below:</h3>
-<input type="text" id="search">
-<button id="submit">Search</button>
+<div class="searchevent">
+  <h3>Enter location/date:</h3>
+  <input type="text" id="search">
+  <button id="submit">Search</button>
+</div>
 
 <h3>Results:</h3> <span id="loader"></span>
 <table style="width:100%" id="results">

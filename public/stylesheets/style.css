@@ -1,8 +1,45 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: Geneva, Verdana, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+
+
+.headline {
+
+}
+
+.login {
+
+}
+
+.login button {
+	border: none;
+}
+
+.searchevent {
+	text-align: center;
+	padding-bottom: 30px;
+}
+
+.searchevent h3 {
+	font-size: 28px;
+	margin-bottom: 10px;
+}
+
+#search {
+	font-size: 18px;
+	width: 40%;
+	height: 30px;
+	border: 1px solid #bfbfbf;
+	border-radius: 10px;
+	padding: 2px 8px;
+	margin-right: 6px;
+}
+
+#submit {
+	border: 1px solid #bfbfbf;
+	border-radius: 10px;
+	padding: 8px 15px;
+	font-size: 15px;
 }
