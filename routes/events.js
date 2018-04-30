@@ -6,7 +6,7 @@ module.exports = function(app, express, passport) {
   /* POST query. */
   /*search by keyword*/
   router.post('/', function (req, res) {
-    axios.get('https://www.eventbriteapi.com/v3/events/search/?q=' + req.body.query +'&token=' + process.env.EVENTBRITE_TOKEN)
+    axios.get('https://www.eventbriteapi.com/v3/events/search/?q=' + req.body.query +'&start_date.range_start=' + req.body.date + '&token=' + process.env.EVENTBRITE_TOKEN)
     .then(function (response) {
       res.send(response.data);
     })

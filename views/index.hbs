@@ -33,9 +33,12 @@
 
   <div id="search-wrapper">
     <div class="searchevent container">
-      <input type="text" id="search" placeholder="Enter location and date (ex. boston 04-23, canada)">
-      <input type="date" id="date" name="date">
-      <button type="button" id="submit" class="btn btn-outline-success">Search</button>
+      <p>Enter a location and date for your trip!</p>
+      <form id="searchForm">
+        <input type="text" id="search" placeholder="Ex. Boston" required>
+        <input type="date" id="date" name="date" required>
+        <button type="submit" id="submit" class="btn btn-outline-success">Search</button>
+      </form>
     </div>
   </div>
 </div>
@@ -43,7 +46,7 @@
 <hr>
 
 <!--outputs-->
-<div class="outputs">
+<div id="outputs" class="outputs">
   <div class="events">
     <h2>EVENTS</h2> <span id="loader1"></span>
     <table style="width:100%" id="eventsresults">
@@ -71,15 +74,26 @@
 <!--events output-->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-  document.getElementById("submit").addEventListener("click", function(){
+  $("#searchForm").submit(function(e){
+    e.preventDefault();
+
+    getEvents();
+    getRestaurants();
+    getPOIs();
+
+    return false;
+  });
+
+  function getEvents() {
     document.getElementById("loader1").innerHTML = "Loading...";
     document.getElementById("eventsresults").innerHTML = "<tr> <th>Name</th> <th>Date</th> <th>Free?</th> </tr>"
     var queryData = document.getElementById("search").value;
+    var date = (new Date(document.getElementById("date").value)).toISOString().slice(0, -5);
     axios.post('/events', {
-      query: encodeURI(queryData)
+      query: encodeURI(queryData),
+      date: date
     })
     .then(function (response) {
-      console.log(response.data.events);
       var table = document.getElementById("eventsresults");
       var html = "<tr> <th>Name</th> <th>Date</th> <th>Free?</th> </tr>"
       response.data.events.forEach(function(event){
@@ -87,65 +101,57 @@
       })
       table.innerHTML = html;
       document.getElementById("loader1").innerHTML = ""
+      document.getElementById("outputs").scrollIntoView(true);
     })
     .catch(function (error) {
       console.log(error);
-      alert("Error! Please check console!")
       document.getElementById("loader1").innerHTML = ""
     });
-  });
-</script>
+  }
 
-<script>
-  document.getElementById("submit").addEventListener("click", function(){
+  function getRestaurants() {
     document.getElementById("loader2").innerHTML = "Loading...";
     document.getElementById("restresults").innerHTML = "<tr> <th>Name</th> <th>Address</th> <th>Cuisine</th> </tr>"
-    var queryData = document.getElementsById("search").value;
+    var queryData = document.getElementById("search").value;
     axios.post('/zomato', {
       query: encodeURI(queryData)
     })
     .then(function (response) {
-      console.log(response.data.restaurants);
-      var table = document.getElementsById("restresults");
+      var table = document.getElementById("restresults");
       var html = "<tr> <th>Name</th> <th>Address</th> <th>Cuisine</th> </tr>"
       response.data.restaurants.forEach(function(rest) {
-        html += "<tr> <td>" + rest.results.found + "</td><td>" + rest.restaurant.location.address + "</td><td>" + rest.restaurant.cuisines +"</td></tr>"
+        html += "<tr> <td>" + rest.restaurant.name + "</td><td>" + rest.restaurant.location.address + "</td><td>" + rest.restaurant.cuisines +"</td></tr>"
       })
       table.innerHTML = html;
       document.getElementById("loader2").innerHTML = ""
     })
     .catch(function (error) {
       console.log(error);
-      alert("Error! Please check console!")
       document.getElementById("loader2").innerHTML = ""
-    })
-  })
-</script>
+    });
+  }
 
-<script>
-  document.getElementById("submit").addEventListener("click", function(){
+  function getPOIs() {
     document.getElementById("loader3").innerHTML = "Loading...";
     document.getElementById("poisresults").innerHTML = "<tr> <th>Place</th> <th>Address</th> </tf>"
-    var queryData = document.getElementsById("search").value;
+    var queryData = document.getElementById("search").value;
     axios.post('/pois', {
       query: encodeURI(queryData)
     })
     .then(function (response) {
-      console.log(response.data.results);
-      var table = document.getElementsById("poisresults");
+      var table = document.getElementById("poisresults");
       var html = "<tr> <th>Place</th> <th>Address</th> </tf>"
       response.data.results.forEach(function(poi) {
-        html += "<tr> <td>" + poi.name +  "</td></tr>"
+        html += "<tr> <td>" + poi.name +  "</td><td>" + poi.vicinity + "</td></tr>"
       })
       table.innerHTML = html;
       document.getElementById("loader3").innerHTML = ""
     })
     .catch(function (error) {
       console.log(error);
-      alert("Error! Please check console!")
       document.getEelementById("loader3").innerHTML = ""
-    })
-  })
+    });
+  }
 </script>
 
 {{#if userData}}
