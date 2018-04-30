@@ -1,69 +1,45 @@
-<!--floating facebook login button-->
-<div class="login">
-  {{#if user}}
-  <button><a href="/auth/logout">Facebook Logout</a></button>
-  {{else}}
-  <button><a href="/auth/login">Facebook Login</a></button>
-  {{/if}}
-</div>
+<div id="cover">
+  <div class="header">
+    <div class="imageslideshow">
+      <div class="images">
+        <img src="photos/london.jpg" alt="london"/>
+      </div>
 
-<!--header of homepage-->
-<div class="header">
-  <div class="nav">
-    <ul>
-      <li id="name">Trippppr</li>
-      <li><a href="../routes/index.js">home</a></li>
-      {{#if user}}
-        <li>{{user.displayName}}!</li>
-      {{/if}}
-    </ul>
+      <div class="images"> 
+        <img src="photos/japan.jpg" alt="japan"/> 
+      </div>
+
+      <div class="images">
+        <img src="photos/italy.jpg" alt="italy"/>
+      </div>
+
+      <div class="images">
+      <img src="photos/sanfran.jpg" alt="san francisco"/>
+      </div>
+
+      <div class="images"> 
+      <img src="photos/newyork.jpg" alt="new york"/>
+      </div>
+
+      <div class="images"> 
+      <img src="photos/thailand.jpg" alt="bali"/> 
+      </div>
+
+      <div class="images"> 
+      <img src="photos/australia.jpg" alt="australia"/> 
+      </div>
+    </div>
   </div>
 
-  <div class="imageslideshow">
-
-    <div class="images fade">
-      <img src="photos/london.jpg" style="width:100%" alt="london"/>
+  <div id="search-wrapper">
+    <div class="searchevent container">
+      <input type="text" id="search" placeholder="Enter location and date (ex. boston 04-23, canada)">
+      <input type="date" id="date" name="date">
+      <button type="button" id="submit" class="btn btn-outline-success">Search</button>
     </div>
-
-    <div class="images fade"> 
-      <img src="photos/japan.jpg" style="width:100%" alt="japan"/> 
-    </div>
-
-    <div class="images fade">
-      <img src="photos/italy.jpg" style="width:100%" alt="italy"/>
-    </div>
-
-    <div class="images fade">
-    <img src="photos/sanfran.jpg" style="width:100%" alt="san francisco"/>
-    </div>
-
-    <div class="images fade"> 
-    <img src="photos/newyork.jpg" style="width:100%" alt="new york"/>
-    </div>
-
-    <div class="images fade"> 
-    <img src="photos/thailand.jpg" style="width:100%" alt="bali"/> 
-    </div>
-
-    <div class="images fade"> 
-    <img src="photos/australia.jpg" style="width:100%" alt="australia"/> 
-    </div>
-
   </div>
 </div>
-
-<!--search forum-->
-<div class="searchevent">
-  <input type="text" id="search" placeholder="Enter location and date (ex. boston 04-23, canada)">
-  <button id="submit">Search</button>
-</div>
-
-<!--info-->
-<div class="intro">
-  <h2>INTRO</h2>
-  <p>Trippppr introduces you to events, restaurants and points of interests for any location you might be visiting! We will create lists of things for you to do, just enter any location and a potential time you will be visiting.</p>
-</div>
-
+  
 <hr>
 
 <!--outputs-->
@@ -189,7 +165,7 @@
 {{/if}}
 
 <!--runs image slideshow-->
-<script>
+<!--script>
 var slideIndex = 0;
 showSlides();
 
@@ -204,4 +180,4 @@ function showSlides() {
     slides[slideIndex-1].style.display = "block"; 
     setTimeout(showSlides, 6000); 
 }
-</script>
+</script-->

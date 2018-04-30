@@ -3,117 +3,68 @@ body {
 	padding: 0px;
 	margin: 0;
 	font-family: Geneva, Verdana, Arial, sans-serif;
+	overflow-x: hidden;
+}
+
+.navbar {
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 .header {
-	margin-top: 0px;
-	border: 0.5px solid white;
-	position: relative;
-}
-
-.nav {
-	padding: 15px;
-}
-
-.nav ul {
-	list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav li {
-	font-size: 20px;
-	display: inline;
-	padding: 6px;
-}
-
-.nav a:link, a:visited, a:active {
-	color: black;
-	text-decoration: none;
-}
-
-#name {
-	font-size: 30px;
-	padding-right: 25px;
-}
-
-.login {
-	position: fixed;
-	top: 20px;
-	right: 10px;
-	z-index: 10;
-}
-
-.login a {
-	color: white;
-	text-decoration: none;
-}
-
-.login button {
-	background-color: #3b5998;
-	font-size: 20px;
-	font-family: "Helvetica", sans-serif;
-	border: 2px solid #3b5998;
-	padding: 5px 10px;
-	border-radius: 8px;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  margin: 0 auto;
 }
 
 .imageslideshow {
-  max-width: 200%;
-  position: absolute;
-  margin: 0 0 0 0;
-  padding: 0;
-  z-index: -1;
+  width: 700vw;
+  height: 100vh;
+  transition: margin-left 2s ease;
+  -webkit-animation: slide 4s ease infinite;
 }
 
-.imageslideshow img {
-	height: 40%;
+.images {
+  float: left;
+  height: 100vh;
+  width: 100vw;
 }
 
-.fade {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 4s;
-  animation-name: fade;
-  animation-duration: 4s;
+.images > img {
+  min-height: 100%; 
+  width: auto;
 }
 
-@-webkit-keyframes fade {
-  from {opacity: .7} 
-  to {opacity: 1}
+#cover {
+	position: relative;
+	display: flex;
+	flex-direction: column;
 }
 
-@keyframes fade {
-  from {opacity: .7} 
-  to {opacity: 1}
+#search-wrapper {
+	position: absolute;
+    align-self: center;
+    justify-self: center;
+    top: 50vh;
 }
+
+
 
 .searchevent {
-	margin-top: 25%;
-	text-align: center;
-	position: relative;
-	color: black;
-	padding-top: 30px;
-	padding-bottom: 30px;
-	margin-left: 27%;
-	margin-right: 27%;
-	border-radius: 10px;
+	background-color: #eee;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	border-radius: 5px;
 }
 
 #search {
-	font-size: 14px;
+	/*font-size: 14px;
 	width: 70%;
 	height: 30px;
 	border: 1px solid #bfbfbf;
 	border-radius: 10px;
 	padding: 2px 8px;
-	margin-right: 2px;
-}
-
-#submit {
-	border: 1px solid #bfbfbf;
-	border-radius: 6px;
-	padding: 8px 15px;
-	font-size: 15px;
+	margin-right: 2px;*/
 }
 
 .intro {
@@ -145,10 +96,12 @@ hr{
 	padding: 1% 2% 1% 2%;
 }
 
-
-
-
-
-
-
-
+@-webkit-keyframes slide {
+  20% {margin-left: 0;}
+  30% {margin-left: -100vw;}
+  50% {margin-left: -200vw;}
+  60% {margin-left: -300vw;}
+  70% {margin-left: -400vw;}
+  80% {margin-left: -500vw;}
+  90% {margin-left: -600vw;}
+}

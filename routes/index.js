@@ -10,6 +10,14 @@ module.exports = function(app, express, passport) {
     }
   });
 
+    router.get('/about', function(req, res, next) {
+    if (req.user) {
+      res.render('about', { title: 'About', user: req.user, userData: JSON.stringify(req.user)});
+    } else {
+      res.render('about', { title: 'About | Login' });
+    }
+  });
+
   router.get('/authFail', function(req, res, next) {
     res.render('authFail');
   });
