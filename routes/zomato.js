@@ -20,7 +20,7 @@ module.exports = function(app, express, passport) {
 		  console.log(error);
 		  res.send(error);
 		});
-	})
+	});
 	
   return router;
 }
