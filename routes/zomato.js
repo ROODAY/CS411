@@ -7,7 +7,7 @@ module.exports = function(app, express, passport) {
 		axios.get('https://developers.zomato.com/api/v2.1/locations?query=' + req.body.query, {headers: { 'user-key': process.env.Z_USERKEY }} )
 		.then(function (response) {
 			var cityid = JSON.stringify(response.data.location_suggestions[0].city_id);
-		  	axios.get('https://developers.zomato.com/api/v2.1/collections?city_id=' + cityid, {headers: { 'user-key': process.env.Z_USERKEY }} )
+		  	axios.get('https://developers.zomato.com/api/v2.1/search?entity_id=' + cityid, {headers: { 'user-key': process.env.Z_USERKEY }} )
 			.then(function (response) {
 			  res.send(response.data);
 			})
