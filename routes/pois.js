@@ -23,4 +23,5 @@ module.exports = function(app, express, passport) {
 			res.send(error);
 		});
 	});
+	return router;
 }
