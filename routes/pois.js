@@ -8,7 +8,7 @@ module.exports = function(app, express, passport) {
 		.then(function (response) {
 			var latitude = JSON.stringify(response.data.results[0].geometry.location.lat);
 			var longitude = JSON.stringify(response.data.results[0].geometry.location.lng);
-			axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?rankby=distance&location=' + latitude + ',' + longitude + '&key=' + process.env.GOOGLE_KEY)
+			axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?rankby=100km&location=' + latitude + ',' + longitude + '&key=' + process.env.GOOGLE_KEY)
 			.then(function (response) {
 				res.send(response.data);
 			})

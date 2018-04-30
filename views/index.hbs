@@ -51,9 +51,9 @@
 <!--outputs-->
 <div id="outputs" class="outputs">
   <div class="events">
-    <h2>EVENTS</h2> <span id="loader1"></span>
-    <table style="width:100%" id="eventsresults">
-    </table>
+    <h2>EVENTS</h2>
+
+    <div id="event-wrapper" class="card-wrapper"></div>
   </div>
   
   <hr>
@@ -102,6 +102,7 @@
     getEvents();
     getRestaurants();
     getPOIs();
+    getFlights();
 
 
     document.getElementById("outputs").scrollIntoView(true);
@@ -110,29 +111,42 @@
   });
 
   function getEvents() {
-    document.getElementById("loader1").innerHTML = "Loading...";
-    document.getElementById("eventsresults").innerHTML = "<tr> <th>Name</th> <th>Date</th> <th>Free?</th> </tr>"
-    var queryData = $("#endLocation").val();
-    var date = (new Date($("#startDate").val())).toISOString().slice(0, -5);
+    var location = $("#endLocation").val();
+    var startDate = (new Date($("#startDate").val())).toISOString().slice(0, -5);
+    var endDate = (new Date($("#endDate").val())).toISOString().slice(0, -5);
+
+
+    $("#event-wrapper").html("");
+
     axios.post('/events', {
-      query: encodeURI(queryData),
-      date: date
+      location: encodeURI(location),
+      startDate: startDate,
+      endDate: endDate
     })
     .then(function (response) {
-      var table = document.getElementById("eventsresults");
-      var html = "<tr> <th>Name</th> <th>Date</th> <th>Free?</th> </tr>"
       if (typeof response.data.events == "string") {
         response.data.events = JSON.parse(response.data.events);
       }
+
+      if (response.data.events.length == 0) {
+        $("#event-wrapper").html("<h3>No events found!</h3>");
+      }
+
+      var newhtml = '';
       response.data.events.forEach(function(event){
-        html += "<tr> <td>" + event.name.text + "</td><td>" + (new Date(event.start.utc)).toLocaleDateString() + "</td><td>" + event.is_free + "</td></tr>"
+        var string;
+        if (event.is_free) {
+          string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title><span class="free oi oi-circle-check"></span> ' + event.name.text + '</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(event.start.utc)).toLocaleDateString() + '</h6><p class=card-text>' + event.description.text + '</p><a class=card-link href="' + event.url + '" target="_blank"><button type="button" class="btn btn-primary">Event Page</button></a><button type="button" class="btn btn-outline-primary">Save</button></div></div>'
+        } else {
+          string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title>' + event.name.text + '</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(event.start.utc)).toLocaleDateString() + '</h6><p class=card-text>' + event.description.text + '</p><a class=card-link href="' + event.url + '" target="_blank"><button type="button" class="btn btn-primary">Event Page</button></a><button type="button" class="btn btn-outline-primary">Save</button></div></div>'
+        }
+        var el = $(string);
+        $(el).data("event", event);
+        $("#event-wrapper").append(el)
       })
-      table.innerHTML = html;
-      document.getElementById("loader1").innerHTML = ""
     })
     .catch(function (error) {
       console.log(error);
-      document.getElementById("loader1").innerHTML = ""
     });
   }
 
@@ -177,6 +191,25 @@
     .catch(function (error) {
       console.log(error);
       document.getEelementById("loader3").innerHTML = ""
+    });
+  }
+
+  function getFlights() {
+    var source = $("#startLocation").val();
+    var dest = $("#endLocation").val();
+    var startDate = (new Date($("#startDate").val())).toISOString().replace('-', '').split('T')[0].replace('-', '');
+    var endDate = (new Date($("#endDate").val())).toISOString().replace('-', '').split('T')[0].replace('-', '');
+    axios.post('/goibibo/flights', {
+      source: encodeURI(source),
+      dest: encodeURI(dest),
+      startDate: encodeURI(startDate),
+      endDate: encodeURI(endDate)
+    })
+    .then(function (response) {
+      console.log("flights", response.data.data.onwardflights)
+    })
+    .catch(function (error) {
+      console.log(error);
     });
   }
 </script>

@@ -12,7 +12,7 @@ module.exports = function(app, express, passport) {
       let db = client.db(process.env.MONGODB);
       let events = db.collection('eventsCache');
 
-      events.findOne({location: req.body.query, date: req.body.date}, function(err, docs){
+      events.findOne({location: req.body.location, startDate: req.body.startDate, endDate: req.body.endDate}, function(err, docs){
         if (err) throw err;
 
         var inprogress = false;
@@ -22,21 +22,34 @@ module.exports = function(app, express, passport) {
           res.send(docs);
         } else {
           inprogress = true;
-          axios.get('https://www.eventbriteapi.com/v3/events/search/?q=' + req.body.query +'&start_date.range_start=' + req.body.date + '&token=' + process.env.EVENTBRITE_TOKEN)
-          .then(function (response) {
-            events.insertOne( {location: req.body.query, date: req.body.date, events: JSON.stringify(response.data.events)}, {}, function(err, result){
-              if (err) throw err;
 
-              client.close(function (err) {
-                if(err) throw err;
+          axios.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + req.body.location + '&key=' + process.env.GOOGLE_KEY)
+          .then(function (response) {
+            var latitude = JSON.stringify(response.data.results[0].geometry.location.lat);
+            var longitude = JSON.stringify(response.data.results[0].geometry.location.lng);
+
+            axios.get('https://www.eventbriteapi.com/v3/events/search/?location.within=100km&location.latitude=' + latitude + '&location.longitude=' + longitude + '&start_date.range_start=' + req.body.startDate + '&start_date.range_end=' + req.body.endDate + '&token=' + process.env.EVENTBRITE_TOKEN)
+            .then(function (response) {
+              events.insertOne( {location: req.body.location, startDate: req.body.startDate, endDate: req.body.endDate, events: JSON.stringify(response.data.events)}, {}, function(err, result){
+                if (err) throw err;
+
+                client.close(function (err) {
+                  if(err) throw err;
+                });
               });
+              res.send(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+              res.send(error);
             });
-            res.send(response.data);
           })
           .catch(function (error) {
             console.log(error);
             res.send(error);
           });
+
+            
         }
 
         if (!inprogress) {

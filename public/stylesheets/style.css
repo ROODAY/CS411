@@ -77,6 +77,56 @@ body {
   margin: 0 2px 0 2px;
 }
 
+.card-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space:nowrap;  
+  height: 450px;
+}
+
+.card-wrapper::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+
+.card-text {
+  flex-grow: 1;
+  overflow-y: scroll;
+   word-break: break-word;
+    white-space: normal;
+}
+
+.card-title {
+   word-break: break-word;
+    white-space: normal;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+span.free {
+  color: green;
+}
+
+.card-body > button {
+  flex-shrink: 0;
+}
+
+.card-link > button {
+      width: 100%;
+    margin: 5px 0 5px 0;
+}
+
+.card {
+  display: inline-block;
+  margin: 0 3px 0 3px;
+  height: 100%;
+  width: 300px !important;
+}
+
 .searchevent {
 	padding-top: 15px;
 	padding-bottom: 15px;
