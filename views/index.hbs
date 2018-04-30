@@ -42,8 +42,6 @@
     </div>
   </div>
 </div>
-  
-<hr>
 
 <!--outputs-->
 <div id="outputs" class="outputs">
@@ -94,8 +92,12 @@
       date: date
     })
     .then(function (response) {
+      console.log(response.data)
       var table = document.getElementById("eventsresults");
       var html = "<tr> <th>Name</th> <th>Date</th> <th>Free?</th> </tr>"
+      if (typeof response.data.events == "string") {
+        response.data.events = JSON.parse(response.data.events);
+      }
       response.data.events.forEach(function(event){
         html += "<tr> <td>" + event.name.text + "</td><td>" + (new Date(event.start.utc)).toLocaleDateString() + "</td><td>" + event.is_free + "</td></tr>"
       })
