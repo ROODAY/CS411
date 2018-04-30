@@ -1,5 +1,4 @@
-
-
+<!--floating facebook login button-->
 <div class="login">
   {{#if user}}
   <button><a href="/auth/logout">Facebook Logout</a></button>
@@ -8,6 +7,7 @@
   {{/if}}
 </div>
 
+<!--header of homepage-->
 <div class="header">
   <div class="nav">
     <ul>
@@ -25,12 +25,12 @@
       <img src="photos/london.jpg" style="width:100%" alt="london"/>
     </div>
 
-    <div class="images fade">
-      <img src="photos/italy.jpg" style="width:100%" alt="italy"/>
+    <div class="images fade"> 
+      <img src="photos/japan.jpg" style="width:100%" alt="japan"/> 
     </div>
 
     <div class="images fade">
-      <img src="photos/singapore.jpg" style="width:100%" alt="singapore"/>
+      <img src="photos/italy.jpg" style="width:100%" alt="italy"/>
     </div>
 
     <div class="images fade">
@@ -42,11 +42,7 @@
     </div>
 
     <div class="images fade"> 
-    <img src="photos/japan.jpg" style="width:100%" alt="japan"/> 
-    </div>
-
-    <div class="images fade"> 
-    <img src="photos/bali.jpg" style="width:100%" alt="bali"/> 
+    <img src="photos/thailand.jpg" style="width:100%" alt="bali"/> 
     </div>
 
     <div class="images fade"> 
@@ -56,16 +52,25 @@
   </div>
 </div>
 
+<!--search forum-->
 <div class="searchevent">
-  <input type="text" id="search" placeholder="Enter location and date (ex. boston july 20, canada)">
+  <input type="text" id="search" placeholder="Enter location and date (ex. boston 04-23, canada)">
   <button id="submit">Search</button>
 </div>
 
-<div class="results"></div>
+<!--info-->
+<div class="intro">
+  <h2>INTRO</h2>
+  <p>Trippppr introduces you to events, restaurants and points of interests for any location you might be visiting! We will create lists of things for you to do, just enter any location and a potential time you will be visiting.</p>
+</div>
 
+<hr>
+
+<!--outputs-->
+<div class="outputs">
   <div class="events">
-    <h3>EVENTS</h3> <span id="loader"></span>
-    <table style="width:100%" id="results">
+    <h2>EVENTS</h2> <span id="loader1"></span>
+    <table style="width:100%" id="eventsresults">
       <tr>
         <th>Name</th>
         <th>Date</th> 
@@ -73,45 +78,83 @@
       </tr>
     </table>
   </div>
+  
+  <hr>
 
   <div class="restaurants">
-
+    <h2>RESTAURANTS</h2><span id="loader2"></span>
+    <table style="width:100%" id="restresults">
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Cuisine</th>
+      </tr>
+    </table>
   </div>
 
-  <div class="pois">
+  <hr>
+<!--
+  <h2>POINTS OF INTERESTS</h2><span id="loader"></span>
+  <table id="results">
 
-  </div>
+  </table>-->
 
 </div>
 
-
-
+<!--events output-->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
   document.getElementById("submit").addEventListener("click", function(){
-    document.getElementById("loader").innerHTML = "Loading...";
-    document.getElementById("results").innerHTML = "<tr> <th align='left'>Name</th> <th align='left'>Date</th> <th align='left'>Free?</th> </tr>"
+    document.getElementById("loader1").innerHTML = "Loading...";
+    document.getElementById("eventsresults").innerHTML = "<tr> <th>Name</th> <th>Date</th> <th>Free?</th> </tr>"
     var queryData = document.getElementById("search").value;
     axios.post('/events', {
       query: encodeURI(queryData)
     })
     .then(function (response) {
       console.log(response.data.events);
-      var table = document.getElementById("results");
-      var html = "<tr> <th align='left'>Name</th> <th align='left'>Date</th> <th align='left'>Free?</th> </tr>"
+      var table = document.getElementById("eventsresults");
+      var html = "<tr> <th>Name</th> <th>Date</th> <th>Free?</th> </tr>"
       response.data.events.forEach(function(event){
         html += "<tr> <td>" + event.name.text + "</td><td>" + (new Date(event.start.utc)).toLocaleDateString() + "</td><td>" + event.is_free + "</td></tr>"
       })
       table.innerHTML = html;
-      document.getElementById("loader").innerHTML = ""
+      document.getElementById("loader1").innerHTML = ""
     })
     .catch(function (error) {
       console.log(error);
       alert("Error! Please check console!")
-      document.getElementById("loader").innerHTML = ""
+      document.getElementById("loader1").innerHTML = ""
     });
   });
 </script>
+
+<script>
+  document.getElementById("submit").addEventListener("click", function(){
+    document.getElementById("loader2").innerHTML = "Loading...";
+    document.getElementById("restresults").innerHTML = "<tr> <th>Name</th> <th>Address</th> <th>Cuisine</th> </tr>"
+    var queryData = document.getElementsById("search").value;
+    axios.post('/zomato', {
+      query: encodeURI(queryData)
+    })
+    .then(function (response) {
+      console.log(response.data.zomato);
+      var table = document.getElementsById("eventsresults");
+      var html = "<tr> <th>Name</th> <th>Address</th> <th>Cuisine</th> </tr>"
+      response.data.zomato.forEach(function(restaurant) {
+        html += "<tr> <td>" + event.title + "</td><td>" + event.address + "</td><td>" + event.cuisines +"</td></tr>"
+      })
+      table.innerHTML = html;
+      document.getElementById("loader2").innerHTML = ""
+    })
+    .catch(function (error) {
+      console.log(error);
+      alert("Error! Please check console!")
+      document.getElementById("loader2").innerHTML = ""
+    })
+  })
+</script>
+
 {{#if userData}}
   <script>
     userObj = {{{userData}}};
@@ -128,6 +171,7 @@
   </script>
 {{/if}}
 
+<!--runs image slideshow-->
 <script>
 var slideIndex = 0;
 showSlides();
