@@ -36,8 +36,10 @@ body {
 .imageslideshow {
   width: 700vw;
   height: 100vh;
-  transition: margin-left 2s ease;
-  -webkit-animation: slide 4s ease infinite;
+  -webkit-animation: slide 35s ease infinite;
+  -moz-animation: slide 35s ease infinite;
+  -o-animation: slide 35s ease infinite;
+  animation: slide 35s ease infinite;
 }
 
 .images {
@@ -104,11 +106,69 @@ hr{
 }
 
 @-webkit-keyframes slide {
-  20% {margin-left: 0;}
-  30% {margin-left: -100vw;}
-  50% {margin-left: -200vw;}
-  60% {margin-left: -300vw;}
+  0% {margin-left: 0;}
+  14% {margin-left: 0;}
+  15% {margin-left: -100vw;}
+  28% {margin-left: -100vw;}
+  29% {margin-left: -200vw;}
+  42% {margin-left: -200vw;}
+  43% {margin-left: -300vw;}
+  56% {margin-left: -300vw;}
+  57% {margin-left: -400vw;}
   70% {margin-left: -400vw;}
-  80% {margin-left: -500vw;}
-  90% {margin-left: -600vw;}
+  71% {margin-left: -500vw;}
+  84% {margin-left: -500vw;}
+  85% {margin-left: -600vw;}
+  199% {margin-left: -600vw;}
+}
+
+@-moz-keyframes slide {
+  0% {margin-left: 0;}
+  14% {margin-left: 0;}
+  15% {margin-left: -100vw;}
+  28% {margin-left: -100vw;}
+  29% {margin-left: -200vw;}
+  42% {margin-left: -200vw;}
+  43% {margin-left: -300vw;}
+  56% {margin-left: -300vw;}
+  57% {margin-left: -400vw;}
+  70% {margin-left: -400vw;}
+  71% {margin-left: -500vw;}
+  84% {margin-left: -500vw;}
+  85% {margin-left: -600vw;}
+  199% {margin-left: -600vw;}
+}
+
+@-o-keyframes slide {
+  0% {margin-left: 0;}
+  14% {margin-left: 0;}
+  15% {margin-left: -100vw;}
+  28% {margin-left: -100vw;}
+  29% {margin-left: -200vw;}
+  42% {margin-left: -200vw;}
+  43% {margin-left: -300vw;}
+  56% {margin-left: -300vw;}
+  57% {margin-left: -400vw;}
+  70% {margin-left: -400vw;}
+  71% {margin-left: -500vw;}
+  84% {margin-left: -500vw;}
+  85% {margin-left: -600vw;}
+  199% {margin-left: -600vw;}
+}
+
+@keyframes slide {
+  0% {margin-left: 0;}
+  14% {margin-left: 0;}
+  15% {margin-left: -100vw;}
+  28% {margin-left: -100vw;}
+  29% {margin-left: -200vw;}
+  42% {margin-left: -200vw;}
+  43% {margin-left: -300vw;}
+  56% {margin-left: -300vw;}
+  57% {margin-left: -400vw;}
+  70% {margin-left: -400vw;}
+  71% {margin-left: -500vw;}
+  84% {margin-left: -500vw;}
+  85% {margin-left: -600vw;}
+  199% {margin-left: -600vw;}
 }
