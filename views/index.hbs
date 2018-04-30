@@ -71,11 +71,6 @@
   <div class="events">
     <h2>EVENTS</h2> <span id="loader1"></span>
     <table style="width:100%" id="eventsresults">
-      <tr>
-        <th>Name</th>
-        <th>Date</th> 
-        <th>Free?</th>
-      </tr>
     </table>
   </div>
   
@@ -84,20 +79,16 @@
   <div class="restaurants">
     <h2>RESTAURANTS</h2><span id="loader2"></span>
     <table style="width:100%" id="restresults">
-      <tr>
-        <th>Name</th>
-        <th>Address</th>
-        <th>Cuisine</th>
-      </tr>
     </table>
   </div>
 
   <hr>
-<!--
-  <h2>POINTS OF INTERESTS</h2><span id="loader"></span>
-  <table id="results">
 
-  </table>-->
+  <div class="pois">
+    <h2>POINTS OF INTERESTS</h2><span id="loader3"></span>
+    <table style="width:100%" id="poisresults">
+    </table>
+  </div>
 
 </div>
 
@@ -138,11 +129,11 @@
       query: encodeURI(queryData)
     })
     .then(function (response) {
-      console.log(response.data.zomato);
-      var table = document.getElementsById("eventsresults");
+      console.log(response.data.restaurants);
+      var table = document.getElementsById("restresults");
       var html = "<tr> <th>Name</th> <th>Address</th> <th>Cuisine</th> </tr>"
-      response.data.zomato.forEach(function(restaurant) {
-        html += "<tr> <td>" + event.title + "</td><td>" + event.address + "</td><td>" + event.cuisines +"</td></tr>"
+      response.data.restaurants.forEach(function(rest) {
+        html += "<tr> <td>" + rest.results.found + "</td><td>" + rest.restaurant.location.address + "</td><td>" + rest.restaurant.cuisines +"</td></tr>"
       })
       table.innerHTML = html;
       document.getElementById("loader2").innerHTML = ""
@@ -151,6 +142,32 @@
       console.log(error);
       alert("Error! Please check console!")
       document.getElementById("loader2").innerHTML = ""
+    })
+  })
+</script>
+
+<script>
+  document.getElementById("submit").addEventListener("click", function(){
+    document.getElementById("loader3").innerHTML = "Loading...";
+    document.getElementById("poisresults").innerHTML = "<tr> <th>Place</th> <th>Address</th> </tf>"
+    var queryData = document.getElementsById("search").value;
+    axios.post('/pois', {
+      query: encodeURI(queryData)
+    })
+    .then(function (response) {
+      console.log(response.data.results);
+      var table = document.getElementsById("poisresults");
+      var html = "<tr> <th>Place</th> <th>Address</th> </tf>"
+      response.data.results.forEach(function(poi) {
+        html += "<tr> <td>" + poi.name +  "</td></tr>"
+      })
+      table.innerHTML = html;
+      document.getElementById("loader3").innerHTML = ""
+    })
+    .catch(function (error) {
+      console.log(error);
+      alert("Error! Please check console!")
+      document.getEelementById("loader3").innerHTML = ""
     })
   })
 </script>
