@@ -60,16 +60,24 @@ body {
 }
 
 #search-wrapper {
+  background-color: #eee;
 	position: absolute;
-    align-self: center;
-    justify-self: center;
-    top: 50vh;
+  align-self: center;
+  justify-self: center;
+  top: 50vh;
+  border-radius: 10px;
 }
 
+#inputWrapper {
+      display: flex;
+      align-items: center;
+}
 
+#inputWrapper > * {
+  margin: 0 2px 0 2px;
+}
 
 .searchevent {
-	background-color: #eee;
 	padding-top: 15px;
 	padding-bottom: 15px;
 	border-radius: 5px;

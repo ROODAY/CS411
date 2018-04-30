@@ -33,11 +33,16 @@
 
   <div id="search-wrapper">
     <div class="searchevent container">
-      <p>Enter a location and date for your trip!</p>
+      <h1>Enter your trip details below</h1>
       <form id="searchForm">
-        <input type="text" id="search" placeholder="Ex. Boston" required>
-        <input type="date" id="date" name="date" required>
-        <button type="submit" id="submit" class="btn btn-outline-success">Search</button>
+        <div id="inputWrapper">
+          <input class="form-control" type="text" id="startLocation" placeholder="Boston" required>
+          <button disabled class="btn btn-outline-success"> <span class="oi oi-loop"></span></button>
+          <input class="form-control" type="text" id="endLocation" placeholder="San Diego" required>
+          <input id="startDate" name="startDate" placeholder="Depart" required>
+          <input id="endDate" name="endDate" placeholder="Return" required>
+          <button type="submit" id="submit" class="btn btn-outline-success"><span class="oi oi-magnifying-glass"></span></button>
+        </div>
       </form>
     </div>
   </div>
@@ -72,6 +77,25 @@
 <!--events output-->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+  $(document).ready(function(){
+    $('#startDate').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+    $('#endDate').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+
+    axios.get('https://ipinfo.io')
+    .then(function (response) {
+      $("#startLocation").val(response.data.city);
+    })
+    .catch(function (error) {
+      console.log(error);
+      document.getElementById("loader2").innerHTML = ""
+    });
+  });
+
+
   $("#searchForm").submit(function(e){
     e.preventDefault();
 
@@ -79,20 +103,22 @@
     getRestaurants();
     getPOIs();
 
+
+    document.getElementById("outputs").scrollIntoView(true);
+
     return false;
   });
 
   function getEvents() {
     document.getElementById("loader1").innerHTML = "Loading...";
     document.getElementById("eventsresults").innerHTML = "<tr> <th>Name</th> <th>Date</th> <th>Free?</th> </tr>"
-    var queryData = document.getElementById("search").value;
-    var date = (new Date(document.getElementById("date").value)).toISOString().slice(0, -5);
+    var queryData = $("#endLocation").val();
+    var date = (new Date($("#startDate").val())).toISOString().slice(0, -5);
     axios.post('/events', {
       query: encodeURI(queryData),
       date: date
     })
     .then(function (response) {
-      console.log(response.data)
       var table = document.getElementById("eventsresults");
       var html = "<tr> <th>Name</th> <th>Date</th> <th>Free?</th> </tr>"
       if (typeof response.data.events == "string") {
@@ -103,7 +129,6 @@
       })
       table.innerHTML = html;
       document.getElementById("loader1").innerHTML = ""
-      document.getElementById("outputs").scrollIntoView(true);
     })
     .catch(function (error) {
       console.log(error);
@@ -114,7 +139,7 @@
   function getRestaurants() {
     document.getElementById("loader2").innerHTML = "Loading...";
     document.getElementById("restresults").innerHTML = "<tr> <th>Name</th> <th>Address</th> <th>Cuisine</th> </tr>"
-    var queryData = document.getElementById("search").value;
+    var queryData = $("#endLocation").val();
     axios.post('/zomato', {
       query: encodeURI(queryData)
     })
@@ -136,7 +161,7 @@
   function getPOIs() {
     document.getElementById("loader3").innerHTML = "Loading...";
     document.getElementById("poisresults").innerHTML = "<tr> <th>Place</th> <th>Address</th> </tf>"
-    var queryData = document.getElementById("search").value;
+    var queryData = $("#endLocation").val();
     axios.post('/pois', {
       query: encodeURI(queryData)
     })

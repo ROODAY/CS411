@@ -34,6 +34,7 @@ var usersRouter = require('./routes/users')(app, express, passport);
 var eventsRouter = require('./routes/events')(app, express, passport);
 var zomatoRouter = require('./routes/zomato')(app, express, passport);
 var poisRouter = require('./routes/pois')(app, express, passport);
+var goibiboRouter = require('./routes/goibibo')(app, express, passport);
 
 app.use('/', indexRouter);
 app.use('/events', eventsRouter);
@@ -41,6 +42,7 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/zomato', zomatoRouter);
 app.use('/pois', poisRouter);
+app.use('/goibibo', goibiboRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
