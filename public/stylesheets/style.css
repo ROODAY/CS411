@@ -177,7 +177,7 @@ hr{
   71% {margin-left: -500vw;}
   84% {margin-left: -500vw;}
   85% {margin-left: -600vw;}
-  199% {margin-left: -600vw;}
+  100% {margin-left: -600vw;}
 }
 
 @-moz-keyframes slide {
@@ -194,7 +194,7 @@ hr{
   71% {margin-left: -500vw;}
   84% {margin-left: -500vw;}
   85% {margin-left: -600vw;}
-  199% {margin-left: -600vw;}
+  100% {margin-left: -600vw;}
 }
 
 @-o-keyframes slide {
@@ -211,7 +211,7 @@ hr{
   71% {margin-left: -500vw;}
   84% {margin-left: -500vw;}
   85% {margin-left: -600vw;}
-  199% {margin-left: -600vw;}
+  100% {margin-left: -600vw;}
 }
 
 @keyframes slide {
@@ -228,5 +228,5 @@ hr{
   71% {margin-left: -500vw;}
   84% {margin-left: -500vw;}
   85% {margin-left: -600vw;}
-  199% {margin-left: -600vw;}
+  100% {margin-left: -600vw;}
 }
