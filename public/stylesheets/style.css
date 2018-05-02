@@ -1,13 +1,29 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
+  margin: 0;
+  margin-bottom: 60px; /* Margin bottom by footer height */
 	background-color: white;
 	padding: 0px;
-	margin: 0;
 	font-family: Geneva, Verdana, Arial, sans-serif;
 	overflow-x: hidden;
 }
 
 .navbar {
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; /* Set the fixed height of the footer here */
+  line-height: 60px; /* Vertically center the text there */
+  text-align: center;
+  background-color: #f5f5f5;
 }
 
 .header {
@@ -20,8 +36,10 @@ body {
 .imageslideshow {
   width: 700vw;
   height: 100vh;
-  transition: margin-left 2s ease;
-  -webkit-animation: slide 4s ease infinite;
+  -webkit-animation: slide 35s ease infinite;
+  -moz-animation: slide 35s ease infinite;
+  -o-animation: slide 35s ease infinite;
+  animation: slide 35s ease infinite;
 }
 
 .images {
@@ -42,29 +60,78 @@ body {
 }
 
 #search-wrapper {
+  background-color: #eee;
 	position: absolute;
-    align-self: center;
-    justify-self: center;
-    top: 50vh;
+  align-self: center;
+  justify-self: center;
+  top: 50vh;
+  border-radius: 10px;
 }
 
+#inputWrapper {
+      display: flex;
+      align-items: center;
+}
 
+#inputWrapper > * {
+  margin: 0 2px 0 2px;
+}
+
+.card-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space:nowrap;  
+  height: 450px;
+}
+
+.card-wrapper::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+
+.card-text {
+  flex-grow: 1;
+  overflow-y: scroll;
+   word-break: break-word;
+    white-space: normal;
+}
+
+.card-title {
+   word-break: break-word;
+    white-space: normal;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+span.free {
+  color: green;
+}
+
+.card-body > button {
+  flex-shrink: 0;
+}
+
+.card-link > button {
+      width: 100%;
+    margin: 5px 0 5px 0;
+}
+
+.card {
+  display: inline-block;
+  margin: 0 3px 0 3px;
+  height: 100%;
+  width: 300px !important;
+}
 
 .searchevent {
-	background-color: #eee;
 	padding-top: 15px;
 	padding-bottom: 15px;
 	border-radius: 5px;
-}
-
-#search {
-	/*font-size: 14px;
-	width: 70%;
-	height: 30px;
-	border: 1px solid #bfbfbf;
-	border-radius: 10px;
-	padding: 2px 8px;
-	margin-right: 2px;*/
+  text-align: center;
 }
 
 .intro {
@@ -97,11 +164,69 @@ hr{
 }
 
 @-webkit-keyframes slide {
-  20% {margin-left: 0;}
-  30% {margin-left: -100vw;}
-  50% {margin-left: -200vw;}
-  60% {margin-left: -300vw;}
+  0% {margin-left: 0;}
+  14% {margin-left: 0;}
+  15% {margin-left: -100vw;}
+  28% {margin-left: -100vw;}
+  29% {margin-left: -200vw;}
+  42% {margin-left: -200vw;}
+  43% {margin-left: -300vw;}
+  56% {margin-left: -300vw;}
+  57% {margin-left: -400vw;}
   70% {margin-left: -400vw;}
-  80% {margin-left: -500vw;}
-  90% {margin-left: -600vw;}
+  71% {margin-left: -500vw;}
+  84% {margin-left: -500vw;}
+  85% {margin-left: -600vw;}
+  100% {margin-left: -600vw;}
+}
+
+@-moz-keyframes slide {
+  0% {margin-left: 0;}
+  14% {margin-left: 0;}
+  15% {margin-left: -100vw;}
+  28% {margin-left: -100vw;}
+  29% {margin-left: -200vw;}
+  42% {margin-left: -200vw;}
+  43% {margin-left: -300vw;}
+  56% {margin-left: -300vw;}
+  57% {margin-left: -400vw;}
+  70% {margin-left: -400vw;}
+  71% {margin-left: -500vw;}
+  84% {margin-left: -500vw;}
+  85% {margin-left: -600vw;}
+  100% {margin-left: -600vw;}
+}
+
+@-o-keyframes slide {
+  0% {margin-left: 0;}
+  14% {margin-left: 0;}
+  15% {margin-left: -100vw;}
+  28% {margin-left: -100vw;}
+  29% {margin-left: -200vw;}
+  42% {margin-left: -200vw;}
+  43% {margin-left: -300vw;}
+  56% {margin-left: -300vw;}
+  57% {margin-left: -400vw;}
+  70% {margin-left: -400vw;}
+  71% {margin-left: -500vw;}
+  84% {margin-left: -500vw;}
+  85% {margin-left: -600vw;}
+  100% {margin-left: -600vw;}
+}
+
+@keyframes slide {
+  0% {margin-left: 0;}
+  14% {margin-left: 0;}
+  15% {margin-left: -100vw;}
+  28% {margin-left: -100vw;}
+  29% {margin-left: -200vw;}
+  42% {margin-left: -200vw;}
+  43% {margin-left: -300vw;}
+  56% {margin-left: -300vw;}
+  57% {margin-left: -400vw;}
+  70% {margin-left: -400vw;}
+  71% {margin-left: -500vw;}
+  84% {margin-left: -500vw;}
+  85% {margin-left: -600vw;}
+  100% {margin-left: -600vw;}
 }

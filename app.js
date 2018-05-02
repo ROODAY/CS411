@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
 var hbs = require('hbs');
+var favicon = require('serve-favicon');
 
 var app = express();
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname,'public','fav','favicon.ico')));
 app.use(require('express-session')({ secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -32,6 +34,7 @@ var usersRouter = require('./routes/users')(app, express, passport);
 var eventsRouter = require('./routes/events')(app, express, passport);
 var zomatoRouter = require('./routes/zomato')(app, express, passport);
 var poisRouter = require('./routes/pois')(app, express, passport);
+var goibiboRouter = require('./routes/goibibo')(app, express, passport);
 
 app.use('/', indexRouter);
 app.use('/events', eventsRouter);
@@ -39,6 +42,7 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/zomato', zomatoRouter);
 app.use('/pois', poisRouter);
+app.use('/goibibo', goibiboRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
