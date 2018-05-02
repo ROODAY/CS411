@@ -179,6 +179,7 @@
 
       if (response.data.events.length == 0) {
         $("#event-wrapper").html("<h3>No Events Found!</h3>");
+        $(".events.loader").addClass("d-none");
       }
 
       response.data.events.forEach(function(event){
@@ -216,6 +217,7 @@
 
       if (response.data.nearby_restaurants.length == 0) {
         $("#rests-wrapper").html("<h3>No Restaurants Found!</h3>");
+        $(".rests.loader").addClass("d-none");
       }
 
       response.data.nearby_restaurants.forEach(function(rest) {
@@ -248,6 +250,7 @@
 
       if (response.data.results.length == 0) {
         $("#rests-wrapper").html("<h3>No Points of Interest Found!</h3>");
+        $(".pois.loader").addClass("d-none");
       }
 
       response.data.results.forEach(function(poi) {
@@ -315,7 +318,6 @@
         endDate: encodeURI(endDate)
       })
       .then(function (response) {
-        console.log("flights", response)
 
         if (typeof response.data == "string") {
           response.data = JSON.parse(response.data);
@@ -326,10 +328,10 @@
         }
 
 
-        console.log("flights", response)
 
         if (response.data.data.onwardflights.length == 0) {
           $("#flights-wrapper").html("<h3>No Flights Found!</h3>");
+          $(".flights.loader").addClass("d-none");
         }
 
         response.data.data.onwardflights.forEach(function(flight){
