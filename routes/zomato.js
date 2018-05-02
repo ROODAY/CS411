@@ -23,7 +23,7 @@ module.exports = function(app, express, passport) {
 	        } else {
 	          inprogress = true;
 
-	         	axios.get('https://developers.zomato.com/api/v2.1/geocode?lat=' + req.body.lng + '&lon=' + req.body.lng, {headers: { 'user-key': process.env.Z_USERKEY }} )
+	         	axios.get('https://developers.zomato.com/api/v2.1/geocode?lat=' + req.body.lat + '&lon=' + req.body.lng, {headers: { 'user-key': process.env.Z_USERKEY }} )
 				.then(function (response) {
 					restaurants.insertOne( {lat: req.body.lat, long: req.body.lng, nearby_restaurants: JSON.stringify(response.data.nearby_restaurants)}, {}, function(err, result){
 		                if (err) throw err;
