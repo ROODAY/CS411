@@ -35,6 +35,8 @@ var eventsRouter = require('./routes/events')(app, express, passport);
 var zomatoRouter = require('./routes/zomato')(app, express, passport);
 var poisRouter = require('./routes/pois')(app, express, passport);
 var goibiboRouter = require('./routes/goibibo')(app, express, passport);
+var latlongRouter = require('./routes/latlong')(app, express, passport);
+var iataRouter = require('./routes/iata')(app, express, passport);
 
 app.use('/', indexRouter);
 app.use('/events', eventsRouter);
@@ -43,10 +45,13 @@ app.use('/auth', authRouter);
 app.use('/zomato', zomatoRouter);
 app.use('/pois', poisRouter);
 app.use('/goibibo', goibiboRouter);
+app.use('/latlong', latlongRouter);
+app.use('/iata', iataRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+	res.render('404');
+  //next(createError(404));
 });
 
 // error handler

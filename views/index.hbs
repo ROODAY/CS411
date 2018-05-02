@@ -49,28 +49,40 @@
 </div>
 
 <!--outputs-->
-<div id="outputs" class="outputs">
-  <div class="events">
+<div id="outputs" class="outputs d-none">
+  <div class="section-wrapper">
     <h2>EVENTS</h2>
-
+    <div class="events loader d-none">Loading...</div>
     <div id="event-wrapper" class="card-wrapper"></div>
   </div>
   
   <hr>
 
-  <div class="restaurants">
-    <h2>RESTAURANTS</h2><span id="loader2"></span>
-    <table style="width:100%" id="restresults">
-    </table>
+  <div class="section-wrapper">
+    <h2>RESTAURANTS</h2>
+    <div class="rests loader d-none">Loading...</div>
+    <div id="rests-wrapper" class="card-wrapper"></div>
   </div>
 
   <hr>
 
-  <div class="pois">
-    <h2>POINTS OF INTERESTS</h2><span id="loader3"></span>
-    <table style="width:100%" id="poisresults">
-    </table>
+  <div class="section-wrapper">
+    <h2>POINTS OF INTERESTS</h2>
+    <div class="pois loader d-none">Loading...</div>
+    <div id="pois-wrapper" class="card-wrapper"></div>
   </div>
+
+  <div class="section-wrapper">
+    <h2>FLIGHTS</h2>
+    <div class="flights loader d-none">Loading...</div>
+    <div id="flights-wrapper" class="card-wrapper"></div>
+  </div>
+
+  <!--div class="section-wrapper">
+    <h2>HOTELS</h2>
+    <div class="hotels loader d-none">Loading...</div>
+    <div id="hotels-wrapper" class="card-wrapper"></div>
+  </div-->
 
 </div>
 
@@ -99,29 +111,66 @@
   $("#searchForm").submit(function(e){
     e.preventDefault();
 
-    getEvents();
-    getRestaurants();
-    getPOIs();
-    getFlights();
+    var source = $("#startLocation").val();
+    var dest = $("#endLocation").val();
 
-
+    $("#outputs").removeClass("d-none");
+    $(".events.loader").removeClass("d-none");
     document.getElementById("outputs").scrollIntoView(true);
+
+    axios.post('/latlong', {
+      location: encodeURI(source)
+    })
+    .then(function(response){
+      if (typeof response.data.geometry == "string") {
+        response.data.geometry = JSON.parse(response.data.geometry);
+      }
+
+      console.log(response)
+
+      var sourceGeo = response.data.geometry;
+      axios.post('/latlong', {
+        location: encodeURI(dest)
+      })
+      .then(function(response){
+        if (typeof response.data.geometry == "string") {
+          response.data.geometry = JSON.parse(response.data.geometry);
+        }
+
+        var destGeo = response.data.geometry;
+
+        console.log(sourceGeo, destGeo)
+
+        getEvents(destGeo);
+        getRestaurants(destGeo);
+        getPOIs(destGeo);
+        getFlights(sourceGeo, destGeo);
+      })
+      .catch(function(error){
+        console.log(error);
+        $("#outputs").addClass("d-none");
+      });
+    })
+    .catch(function(error){
+      console.log(error);
+      $("#outputs").addClass("d-none");
+    });
 
     return false;
   });
 
-  function getEvents() {
-    var location = $("#endLocation").val();
+  function getEvents(destGeo) {
     var startDate = (new Date($("#startDate").val())).toISOString().slice(0, -5);
     var endDate = (new Date($("#endDate").val())).toISOString().slice(0, -5);
 
-
+    $(".events.loader").removeClass("d-none");
     $("#event-wrapper").html("");
 
     axios.post('/events', {
-      location: encodeURI(location),
-      startDate: startDate,
-      endDate: endDate
+      lat: encodeURI(destGeo.location.lat),
+      lng: encodeURI(destGeo.location.lng),
+      startDate: encodeURI(startDate),
+      endDate: encodeURI(endDate)
     })
     .then(function (response) {
       if (typeof response.data.events == "string") {
@@ -129,88 +178,181 @@
       }
 
       if (response.data.events.length == 0) {
-        $("#event-wrapper").html("<h3>No events found!</h3>");
+        $("#event-wrapper").html("<h3>No Events Found!</h3>");
       }
 
-      var newhtml = '';
       response.data.events.forEach(function(event){
         var string;
         if (event.is_free) {
-          string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title><span class="free oi oi-circle-check"></span> ' + event.name.text + '</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(event.start.utc)).toLocaleDateString() + '</h6><p class=card-text>' + event.description.text + '</p><a class=card-link href="' + event.url + '" target="_blank"><button type="button" class="btn btn-primary">Event Page</button></a><button type="button" class="btn btn-outline-primary">Save</button></div></div>'
+          string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title><span class="free oi oi-circle-check"></span> ' + event.name.text + '</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(event.start.utc)).toLocaleDateString() + '</h6><p class=card-text>' + event.description.text + '</p><a class=card-link href="' + event.url + '" target="_blank"><button type="button" class="btn btn-primary">Event Page</button></a><button type="button" class="save d-none btn btn-outline-primary">Save</button></div></div>'
         } else {
-          string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title>' + event.name.text + '</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(event.start.utc)).toLocaleDateString() + '</h6><p class=card-text>' + event.description.text + '</p><a class=card-link href="' + event.url + '" target="_blank"><button type="button" class="btn btn-primary">Event Page</button></a><button type="button" class="btn btn-outline-primary">Save</button></div></div>'
+          string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title>' + event.name.text + '</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(event.start.utc)).toLocaleDateString() + '</h6><p class=card-text>' + event.description.text + '</p><a class=card-link href="' + event.url + '" target="_blank"><button type="button" class="btn btn-primary">Event Page</button></a><button type="button" class="save d-none btn btn-outline-primary">Save</button></div></div>'
         }
+        $(".events.loader").addClass("d-none");
         var el = $(string);
-        $(el).data("event", event);
+        $(el).data("cardData", event);
         $("#event-wrapper").append(el)
       })
+      checkForUser();
     })
     .catch(function (error) {
+      $(".events.loader").addClass("d-none");
       console.log(error);
     });
   }
 
-  function getRestaurants() {
-    document.getElementById("loader2").innerHTML = "Loading...";
-    document.getElementById("restresults").innerHTML = "<tr> <th>Name</th> <th>Address</th> <th>Cuisine</th> </tr>"
-    var queryData = $("#endLocation").val();
+  function getRestaurants(destGeo) {
+    $(".rests.loader").removeClass("d-none");
+    $("#rests-wrapper").html("");
+
     axios.post('/zomato', {
-      query: encodeURI(queryData)
+      lat: encodeURI(destGeo.location.lat),
+      lng: encodeURI(destGeo.location.lng),
     })
     .then(function (response) {
-      var table = document.getElementById("restresults");
-      var html = "<tr> <th>Name</th> <th>Address</th> <th>Cuisine</th> </tr>"
-      response.data.restaurants.forEach(function(rest) {
-        html += "<tr> <td>" + rest.restaurant.name + "</td><td>" + rest.restaurant.location.address + "</td><td>" + rest.restaurant.cuisines +"</td></tr>"
+      if (typeof response.data.nearby_restaurants == "string") {
+        response.data.nearby_restaurants = JSON.parse(response.data.nearby_restaurants);
+      }
+
+      if (response.data.nearby_restaurants.length == 0) {
+        $("#rests-wrapper").html("<h3>No Restaurants Found!</h3>");
+      }
+
+      response.data.nearby_restaurants.forEach(function(rest) {
+        var string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title>' + rest.restaurant.name + '</h5><h6 class="card-subtitle mb-2 text-muted">' + rest.restaurant.location.address + ', ' + rest.restaurant.location.city + '</h6><h6 class="card-subtitle mb-2 text-muted">Rating: ' + rest.restaurant.user_rating.aggregate_rating + '</h6><p class=card-text><strong>Cuisine: </strong>' + rest.restaurant.cuisines + '<img src="' + rest.restaurant.featured_image +'"></p><a class=card-link href="' + rest.restaurant.url + '" target="_blank"><button type="button" class="btn btn-primary">Restaurant Page</button></a><button type="button" class="save d-none btn btn-outline-primary">Save</button></div></div>'
+        var el = $(string);
+        $(el).data("cardData", rest);
+        $(".rests.loader").addClass("d-none");
+        $("#rests-wrapper").append(el)
       })
-      table.innerHTML = html;
-      document.getElementById("loader2").innerHTML = ""
+      checkForUser();
     })
     .catch(function (error) {
+      $(".rests.loader").addClass("d-none");
       console.log(error);
-      document.getElementById("loader2").innerHTML = ""
     });
   }
 
-  function getPOIs() {
-    document.getElementById("loader3").innerHTML = "Loading...";
-    document.getElementById("poisresults").innerHTML = "<tr> <th>Place</th> <th>Address</th> </tf>"
-    var queryData = $("#endLocation").val();
+  function getPOIs(destGeo) {
+    $(".pois.loader").removeClass("d-none");
+    $("#pois-wrapper").html("");
+
     axios.post('/pois', {
-      query: encodeURI(queryData)
+      lat: encodeURI(destGeo.location.lat),
+      lng: encodeURI(destGeo.location.lng),
     })
     .then(function (response) {
-      var table = document.getElementById("poisresults");
-      var html = "<tr> <th>Place</th> <th>Address</th> </tf>"
+      if (typeof response.data.results == "string") {
+        response.data.results = JSON.parse(response.data.results);
+      }
+
+      if (response.data.results.length == 0) {
+        $("#rests-wrapper").html("<h3>No Points of Interest Found!</h3>");
+      }
+
       response.data.results.forEach(function(poi) {
-        html += "<tr> <td>" + poi.name +  "</td><td>" + poi.vicinity + "</td></tr>"
+        var photostr = '';
+        poi.photos.forEach(function(photo){
+          photo.html_attributions.forEach(function(attr){
+            photostr += attr + "<br>"
+          });
+        });
+        var string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title><img class="card-icon" src="' + poi.icon +'">' + poi.name + '</h5><h6 class="card-subtitle mb-2 text-muted">' + poi.vicinity + '</h6><p class=card-text>Photos:<br>' + photostr + '</p><button type="button" class="save d-none btn btn-outline-primary">Save</button></div></div>'
+
+        $(".pois.loader").addClass("d-none");
+        var el = $(string);
+        $(el).data("cardData", poi);
+        $("#pois-wrapper").append(el)
       })
-      table.innerHTML = html;
-      document.getElementById("loader3").innerHTML = ""
+      checkForUser();
     })
     .catch(function (error) {
+      $(".pois.loader").addClass("d-none");
       console.log(error);
-      document.getEelementById("loader3").innerHTML = ""
     });
   }
 
-  function getFlights() {
-    var source = $("#startLocation").val();
-    var dest = $("#endLocation").val();
-    var startDate = (new Date($("#startDate").val())).toISOString().replace('-', '').split('T')[0].replace('-', '');
-    var endDate = (new Date($("#endDate").val())).toISOString().replace('-', '').split('T')[0].replace('-', '');
-    axios.post('/goibibo/flights', {
-      source: encodeURI(source),
-      dest: encodeURI(dest),
-      startDate: encodeURI(startDate),
-      endDate: encodeURI(endDate)
+  function getIATAs(sourceGeo, destGeo, callback) {
+    axios.post('/iata', {
+      lat: encodeURI(sourceGeo.location.lat),
+      lng: encodeURI(sourceGeo.location.lng),
     })
     .then(function (response) {
-      console.log("flights", response.data.data.onwardflights)
+      var srcIata = response.data;
+      axios.post('/iata', {
+        lat: encodeURI(destGeo.location.lat),
+        lng: encodeURI(destGeo.location.lng),
+      })
+      .then(function (response) {
+        var destIata = response.data;
+        callback(null, srcIata, destIata);
+      })
+      .catch(function (error) {
+        callback(error);
+      });
     })
     .catch(function (error) {
-      console.log(error);
+      callback(error);
     });
+  }
+
+  function getFlights(sourceGeo, destGeo) {
+    getIATAs(sourceGeo, destGeo, function(err, srcIata, destIata) {
+      if (err) throw err;
+
+      var startDate = (new Date($("#startDate").val())).toISOString().replace('-', '').split('T')[0].replace('-', '');
+      var endDate = (new Date($("#endDate").val())).toISOString().replace('-', '').split('T')[0].replace('-', '');
+
+      $(".flights.loader").removeClass("d-none");
+      $("#flights-wrapper").html("");
+
+      console.log(srcIata, destIata)
+
+      axios.post('/goibibo/flights', {
+        srcIata: srcIata,
+        destIata: destIata,
+        startDate: encodeURI(startDate),
+        endDate: encodeURI(endDate)
+      })
+      .then(function (response) {
+        console.log("flights", response)
+
+        if (typeof response.data == "string") {
+          response.data = JSON.parse(response.data);
+        }
+
+        if (typeof response.data.data == "string") {
+          response.data.data = JSON.parse(response.data.data);
+        }
+
+
+        console.log("flights", response)
+
+        if (response.data.data.onwardflights.length == 0) {
+          $("#flights-wrapper").html("<h3>No Flights Found!</h3>");
+        }
+
+        response.data.data.onwardflights.forEach(function(flight){
+          var string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title>' + flight.airline + ' ' + flight.flightno +'</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(flight.depdate.split("t")[0])).toLocaleDateString() + ' ' + flight.deptime + '</h6><h6 class="card-subtitle mb-2 text-muted">Duration: ' + flight.duration + '</h6><p class=card-text>Stops: ' + flight.stops + '<br>Fare: $' + (parseInt(flight.fare.totalfare) * 0.015).toFixed(2) + '<br>' + flight.origin + ' <span class="oi oi-arrow-right"></span> ' + flight.destination +'</p><button type="button" class="save d-none btn btn-outline-primary">Save</button></div></div>';
+          $(".flights.loader").addClass("d-none");
+          var el = $(string);
+          $(el).data("cardData", flight);
+          $("#flights-wrapper").append(el)
+        })
+        checkForUser();
+      })
+      .catch(function (error) {
+        $(".flights.loader").addClass("d-none");
+        console.log(error);
+      });
+    });
+   
+  }
+
+  function checkForUser() {
+    {{#if userData}}
+    $("button.save").removeClass("d-none")
+    {{/if}}
   }
 </script>
 

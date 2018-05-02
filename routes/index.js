@@ -10,11 +10,19 @@ module.exports = function(app, express, passport) {
     }
   });
 
-    router.get('/about', function(req, res, next) {
+  router.get('/about', function(req, res, next) {
     if (req.user) {
       res.render('about', { title: 'About', user: req.user, userData: JSON.stringify(req.user)});
     } else {
       res.render('about', { title: 'About | Login' });
+    }
+  });
+
+  router.get('/trips', function(req, res, next) {
+    if (req.user) {
+      res.render('trips', { title: 'Saved Trips', user: req.user, userData: JSON.stringify(req.user)});
+    } else {
+      res.redirect('/');
     }
   });
 

@@ -3,34 +3,34 @@ module.exports = function(app, express, passport) {
   var axios = require('axios');
   var mongodb = require('mongodb');
   
-  router.post('/flights', function(req, res){
+  router.post('/', function(req, res){
       mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, client) {
         if(err) throw err;
 
         let db = client.db(process.env.MONGODB);
-        let flights = db.collection('flightsCache');
+        let iatas = db.collection('iataCache');
 
-        flights.findOne({srcIata: req.body.srcIata, destIata: req.body.destIata}, function(err, docs){
+        iatas.findOne({lat: req.body.lat, long: req.body.lng}, function(err, docs){
           if (err) throw err;
 
           var inprogress = false;
 
           if (docs) {
-            console.log("Found Cache Data for Flights");
-            res.send(docs.data);
+            console.log("Found Cache Data for IATA");
+            res.send(docs.IATA);
           } else {
             inprogress = true;
 
-            axios.get('https://developer.goibibo.com/api/search/?app_id=' + process.env.GOIBIBO_ID + '&app_key=' + process.env.GOIBIBO_KEY + '&source=' + req.body.srcIata + '&destination=' + req.body.destIata + '&dateofdeparture=' + req.body.startDate + '&dateofarrival=' + req.body.endDate + '&seatingclass=E&adults=1&children=0&infants=0&counter=100')
+            axios.get('https://iatageo.com/getCode/' + req.body.lat + '/' + req.body.lng)
             .then(function (response) {
-              flights.insertOne( {srcIata: req.body.srcIata, destIata: req.body.destIata, data: JSON.stringify(response.data)}, {}, function(err, result){
+              iatas.insertOne( {lat: req.body.lat, long: req.body.lng, IATA: JSON.stringify(response.data.IATA)}, {}, function(err, result){
                   if (err) throw err;
 
                   client.close(function (err) {
                     if(err) throw err;
                   });
               });
-              res.send(response.data);
+              res.send(response.data.IATA)
             })
             .catch(function (error) {
               console.log(error);
@@ -44,7 +44,7 @@ module.exports = function(app, express, passport) {
             });
           }
         });
-      });
+      });    
   });
   
   return router;
