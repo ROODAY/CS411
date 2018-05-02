@@ -4,7 +4,10 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "nodemon -e js,env,json,hbs ./bin/www",
+    "mongo": "mongod --dbpath db",
+    "config": "cp .env.config .env"
   },
   "dependencies": {
     "axios": "^0.18.0",
