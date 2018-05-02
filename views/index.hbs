@@ -198,6 +198,7 @@
     })
     .catch(function (error) {
       $(".events.loader").addClass("d-none");
+      $("#event-wrapper").html("<h3>No Events Found!</h3>");
       console.log(error);
     });
   }
@@ -231,6 +232,7 @@
     })
     .catch(function (error) {
       $(".rests.loader").addClass("d-none");
+      $("#rests-wrapper").html("<h3>No Restaurants Found!</h3>");
       console.log(error);
     });
   }
@@ -249,7 +251,7 @@
       }
 
       if (response.data.results.length == 0) {
-        $("#rests-wrapper").html("<h3>No Points of Interest Found!</h3>");
+        $("#pois-wrapper").html("<h3>No Points of Interest Found!</h3>");
         $(".pois.loader").addClass("d-none");
       }
 
@@ -271,6 +273,7 @@
     })
     .catch(function (error) {
       $(".pois.loader").addClass("d-none");
+      $("#pois-wrapper").html("<h3>No Points of Interest Found!</h3>");
       console.log(error);
     });
   }
@@ -345,6 +348,7 @@
       })
       .catch(function (error) {
         $(".flights.loader").addClass("d-none");
+        $("#flights-wrapper").html("<h3>No Flights Found!</h3>");
         console.log(error);
       });
     });
