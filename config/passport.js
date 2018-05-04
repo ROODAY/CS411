@@ -1,5 +1,6 @@
-module.exports = function(passport) {
+// Configure Passport.js for OAuth through Facebook
 
+module.exports = function(passport) {
   var passport = require('passport');
   var Strategy = require('passport-facebook').Strategy;
 

@@ -1,0 +1,54 @@
+{
+    "name": "Trippppr",
+    "description": "Plan your trips with ease!",
+    "env": {
+        "ROOT_URL": {
+            "description": "Root URL for your registration system",
+            "value": "http://localhost:3000"
+        },
+        "MONGODB": {
+            "description": "MongoDB Database",
+            "value": "trippppr"
+        },
+        "MONGODB_URI": {
+            "description": "MongoDB Connection URI",
+            "value": "mongodb://127.0.0.1"
+        },
+        "GOOGLE_KEY": {
+            "description": "Google API Key",
+            "value": "MYKEYHERE"
+        },
+        "EVENTBRITE_TOKEN": {
+            "description": "Eventbrite API Token",
+            "value": "ILIKETOKENS"
+        },
+        "Z_USERKEY": {
+            "description": "Zomato API User Key",
+            "value": "YUMMY"
+        },
+        "GOIBIBO_ID": {
+            "description": "Goibibo Client ID",
+            "value": "111111"
+        },
+        "GOIBIBO_KEY": {
+            "description": "Goibibo Secret Key",
+            "value": "FLIGHTS"
+        },
+        "FB_APP_ID": {
+            "description": "Facebook App ID",
+            "value": "IDGOESHERE"
+        },
+        "FB_APP_SECRET": {
+            "description": "Facebook App Secret",
+            "value": "SHHHHH"
+        },
+        "SESSION_SECRET": {
+            "description": "Random string for Express session",
+            "value": "SPOOKY"
+        },
+    },
+    "addons": [
+        "mongolab"
+    ],
+    "keywords": ["trippppr", "node", "express", "mongo"]
+}

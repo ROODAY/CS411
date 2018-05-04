@@ -1,53 +1,56 @@
 module.exports = function(app, express, passport) {
-	const router = express.Router();
-	var axios = require('axios');
-  	var mongodb = require('mongodb');
-	
-  // do google lat long then zomato geocode its better
-	//search for city_id, input is a cityname, return zomato collections in that city
-	router.post('/', function(req, res){
-		mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, client) {
-	      if(err) throw err;
+  const router = express.Router();
+  const axios = require('axios');
+  const mongodb = require('mongodb');
+  
+  /*
+   * Zomato API
+   * Takes lat, lng
+   * Checks cache for matching parameters within 3 days, returns if it finds anything
+   * Else, call Zomato with same parameters, cache result, and return to user
+   */
+  router.post('/', function(req, res){
+    mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, client) {
+      if(err) throw err;
 
-	      let db = client.db(process.env.MONGODB);
-	      let restaurants = db.collection('restsCache');
+      let db = client.db(process.env.MONGODB);
+      let restaurants = db.collection('restsCache');
 
-	      restaurants.findOne({lat: req.body.lat, long: req.body.lng}, function(err, docs){
-	        if (err) throw err;
+      restaurants.findOne({lat: req.body.lat, lng: req.body.lng, createdAt : { $gte : new Date(new Date() - (1000 * 60 * 60 * 24 * 3)) }}, function(err, docs){
+        if (err) throw err;
 
-	        var inprogress = false;
+        var inprogress = false;
 
-	        if (docs) {
-	          console.log("Found Cache Data for Restaurants");
-	          res.send(docs);
-	        } else {
-	          inprogress = true;
+        if (docs) {
+          res.send(docs);
+        } else {
+          inprogress = true;
 
-	         	axios.get('https://developers.zomato.com/api/v2.1/geocode?lat=' + req.body.lat + '&lon=' + req.body.lng, {headers: { 'user-key': process.env.Z_USERKEY }} )
-				.then(function (response) {
-					restaurants.insertOne( {lat: req.body.lat, long: req.body.lng, nearby_restaurants: JSON.stringify(response.data.nearby_restaurants)}, {}, function(err, result){
-		                if (err) throw err;
+          axios.get('https://developers.zomato.com/api/v2.1/geocode?lat=' + req.body.lat + '&lon=' + req.body.lng, {headers: { 'user-key': process.env.Z_USERKEY }} )
+          .then(function (response) {
+            restaurants.insertOne( {lat: req.body.lat, lng: req.body.lng, createdAt: new Date(), nearby_restaurants: JSON.stringify(response.data.nearby_restaurants)}, {}, function(err, result){
+              if (err) throw err;
 
-		                client.close(function (err) {
-		                  if(err) throw err;
-		                });
-		            });
-					res.send(response.data);
-				})
-				.catch(function (error) {
-				  console.log(error);
-				  res.send(error);
-				});
-	        }
+              client.close(function (err) {
+                if(err) throw err;
+              });
+            });
+            res.send(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+            res.send(error);
+          });
+        }
 
-	        if (!inprogress) {
-	          client.close(function (err) {
-	            if(err) throw err;
-	          });
-	        }
-	      });
-	    });
-	});
-	
+        if (!inprogress) {
+          client.close(function (err) {
+            if(err) throw err;
+          });
+        }
+      });
+    });
+  });
+  
   return router;
 }

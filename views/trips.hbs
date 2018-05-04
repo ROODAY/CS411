@@ -12,93 +12,95 @@
 
 {{#if userData}}
   <script>
-    var userObj = {{{userData}}};
-    $("#coverLoader").removeClass("d-none");
+  	$(document).ready(function(){
+  		var userObj = {{{userData}}};
+	    $("#coverLoader").removeClass("d-none");
 
-    function getUser(obj) {
-		return new Promise(function(resolve, reject) {
-			axios.get('/users/' + obj.id)
-		    .then(function (res) {
-		      if (!res.data) {
-		        axios.post('/users', {
-		          userData: obj
-		        })
-		        .then(function (res) {
-		          var userObj = res.data;
-		          delete userObj._id;
-		          resolve(userObj);
-		        })
-		        .catch(function (err) {
-		          console.error(err);
-		          return reject(err);
-		        });
-		      } else {
-		        var userObj = res.data;
-		        delete userObj._id;
-		        resolve(userObj);
-		      }
-		    })
-		    .catch(function (err) {
-		      console.error(err);
-		      return reject(err);
-		    });
-		});
-    }
+	    function getUser(obj) {
+			return new Promise(function(resolve, reject) {
+				axios.get('/users/' + obj.id)
+			    .then(function (res) {
+			      if (!res.data) {
+			        axios.post('/users', {
+			          userData: obj
+			        })
+			        .then(function (res) {
+			          var userObj = res.data;
+			          delete userObj._id;
+			          resolve(userObj);
+			        })
+			        .catch(function (err) {
+			          console.error(err);
+			          return reject(err);
+			        });
+			      } else {
+			        var userObj = res.data;
+			        delete userObj._id;
+			        resolve(userObj);
+			      }
+			    })
+			    .catch(function (err) {
+			      console.error(err);
+			      return reject(err);
+			    });
+			});
+	    }
 
-    getUser(userObj)
-    .then(function(data){
-    	userObj = data;
-    	loadTrips(userObj);
-        $("#coverLoader").addClass("d-none");
-    })
-    .catch(function(err){
-    	console.error(err);
-    });
-
-    function loadTrips(userObj) {
-    	userObj.savedTrips.forEach(function(trip){
-	    	var sectionWrapper = $('<div class="section-wrapper"><h2>' + trip.name + '</h2></div>');
-	    	var cardWrapper = $('<div class="card-wrapper"></div>');
-	    	trip.events.forEach(function(event){
-	          var string;
-	          if (event.is_free) {
-	            string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title><span class="free oi oi-circle-check"></span> ' + event.name.text + '</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(event.start.utc)).toLocaleDateString() + '</h6><p class=card-text>' + event.description.text + '</p><a class=card-link href="' + event.url + '" target="_blank"><button type="button" class="btn btn-primary">Event Page</button></a></div></div>'
-	          } else {
-	            string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title>' + event.name.text + '</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(event.start.utc)).toLocaleDateString() + '</h6><p class=card-text>' + event.description.text + '</p><a class=card-link href="' + event.url + '" target="_blank"><button type="button" class="btn btn-primary">Event Page</button></a></div></div>'
-	          }
-	          var el = $(string);
-	          $(cardWrapper).append(el)
-	        });
-	        trip.restaurants.forEach(function(rest) {
-	          var string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title>' + rest.restaurant.name + '</h5><h6 class="card-subtitle mb-2 text-muted">' + rest.restaurant.location.address + ', ' + rest.restaurant.location.city + '</h6><h6 class="card-subtitle mb-2 text-muted">Rating: ' + rest.restaurant.user_rating.aggregate_rating + '</h6><p class=card-text><strong>Cuisine: </strong>' + rest.restaurant.cuisines + '<img src="' + rest.restaurant.featured_image +'"></p><a class=card-link href="' + rest.restaurant.url + '" target="_blank"><button type="button" class="btn btn-primary">Restaurant Page</button></a></div></div>'
-	          var el = $(string);
-	          $(cardWrapper).append(el)
-	        });
-	        trip.pois.forEach(function(poi) {
-	          var photostr = '';
-	          if (poi.photos) {
-	            poi.photos.forEach(function(photo){
-	              photo.html_attributions.forEach(function(attr){
-	                photostr += attr + "<br>"
-	              });
-	            });
-	          }
-	  
-	          var string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title><img class="card-icon" src="' + poi.icon +'">' + poi.name + '</h5><h6 class="card-subtitle mb-2 text-muted">' + poi.vicinity + '</h6><p class=card-text>Photos:<br>' + photostr + '</p></div></div>'
-
-	          var el = $(string);
-	          $(cardWrapper).append(el)
-	        });
-	        trip.flights.forEach(function(flight){
-		        var string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title>' + flight.airline + ' ' + flight.flightno +'</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(flight.depdate.split("t")[0])).toLocaleDateString() + ' ' + flight.deptime + '</h6><h6 class="card-subtitle mb-2 text-muted">Duration: ' + flight.duration + '</h6><p class=card-text>Stops: ' + flight.stops + '<br>Fare: $' + (parseInt(flight.fare.totalfare) * 0.015).toFixed(2) + '<br>' + flight.origin + ' <span class="oi oi-arrow-right"></span> ' + flight.destination +'</p></div></div>';
-		        var el = $(string);
-		        $(cardWrapper).append(el)
-		    });
-		    $(sectionWrapper).append(cardWrapper);
-	        $("#tripsWrapper").append(sectionWrapper);
+	    // Load user then load their trips
+	    getUser(userObj)
+	    .then(function(data){
+	    	userObj = data;
+	    	loadTrips(userObj);
+	        $("#coverLoader").addClass("d-none");
+	    })
+	    .catch(function(err){
+	    	console.error(err);
 	    });
-    }
 
-	
+	    // Build HTML for trip cards on the fly
+	    function loadTrips(userObj) {
+	    	userObj.savedTrips.forEach(function(trip){
+		    	var sectionWrapper = $('<div class="section-wrapper"><h2>' + trip.name + '</h2></div>');
+		    	var cardWrapper = $('<div class="card-wrapper"></div>');
+		    	trip.events.forEach(function(event){
+		          var string;
+		          if (event.is_free) {
+		            string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title><span class="free oi oi-circle-check"></span> ' + event.name.text + '</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(event.start.utc)).toLocaleDateString() + '</h6><p class=card-text>' + event.description.text + '</p><a class=card-link href="' + event.url + '" target="_blank"><button type="button" class="btn btn-primary">Event Page</button></a></div></div>'
+		          } else {
+		            string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title>' + event.name.text + '</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(event.start.utc)).toLocaleDateString() + '</h6><p class=card-text>' + event.description.text + '</p><a class=card-link href="' + event.url + '" target="_blank"><button type="button" class="btn btn-primary">Event Page</button></a></div></div>'
+		          }
+		          var el = $(string);
+		          $(cardWrapper).append(el)
+		        });
+		        trip.restaurants.forEach(function(rest) {
+		          var string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title>' + rest.restaurant.name + '</h5><h6 class="card-subtitle mb-2 text-muted">' + rest.restaurant.location.address + ', ' + rest.restaurant.location.city + '</h6><h6 class="card-subtitle mb-2 text-muted">Rating: ' + rest.restaurant.user_rating.aggregate_rating + '</h6><p class=card-text><strong>Cuisine: </strong>' + rest.restaurant.cuisines + '<img src="' + rest.restaurant.featured_image +'"></p><a class=card-link href="' + rest.restaurant.url + '" target="_blank"><button type="button" class="btn btn-primary">Restaurant Page</button></a></div></div>'
+		          var el = $(string);
+		          $(cardWrapper).append(el)
+		        });
+		        trip.pois.forEach(function(poi) {
+		          var photostr = '';
+		          if (poi.photos) {
+		            poi.photos.forEach(function(photo){
+		              photo.html_attributions.forEach(function(attr){
+		                photostr += attr + "<br>"
+		              });
+		            });
+		          }
+		  
+		          var string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title><img class="card-icon" src="' + poi.icon +'">' + poi.name + '</h5><h6 class="card-subtitle mb-2 text-muted">' + poi.vicinity + '</h6><p class=card-text>Photos:<br>' + photostr + '</p></div></div>'
+
+		          var el = $(string);
+		          $(cardWrapper).append(el)
+		        });
+		        trip.flights.forEach(function(flight){
+			        var string = '<div class=card style=width:18rem><div class=card-body><h5 class=card-title>' + flight.airline + ' ' + flight.flightno +'</h5><h6 class="card-subtitle mb-2 text-muted">' + (new Date(flight.depdate.split("t")[0])).toLocaleDateString() + ' ' + flight.deptime + '</h6><h6 class="card-subtitle mb-2 text-muted">Duration: ' + flight.duration + '</h6><p class=card-text>Stops: ' + flight.stops + '<br>Fare: $' + (parseInt(flight.fare.totalfare) * 0.015).toFixed(2) + '<br>' + flight.origin + ' <span class="oi oi-arrow-right"></span> ' + flight.destination +'</p></div></div>';
+			        var el = $(string);
+			        $(cardWrapper).append(el)
+			    });
+			    $(sectionWrapper).append(cardWrapper);
+		        $("#tripsWrapper").append(sectionWrapper);
+		    });
+	    }
+  	});
   </script>
 {{/if}}

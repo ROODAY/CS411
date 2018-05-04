@@ -1,8 +1,10 @@
 module.exports = function(app, express, passport) {
-  var router = express.Router();
-  var mongodb = require('mongodb');
+  const router = express.Router();
+  const mongodb = require('mongodb');
 
-  /* GET users listing. */
+  /*
+   * Returns all users and their data
+   */
   router.get('/', function(req, res, next) {
     mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, client) {
       if(err) throw err;
@@ -22,6 +24,9 @@ module.exports = function(app, express, passport) {
     });
   });
 
+  /*
+   * Returns user data for requested user ID
+   */
   router.get('/:userId', function(req, res, next) {
     mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, client) {
       if(err) throw err;
@@ -41,6 +46,10 @@ module.exports = function(app, express, passport) {
     });
   });
 
+  /*
+   * Creates new user
+   * If user already exists, updates user with new object
+   */
   router.post('/', function(req, res, next) {
     mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, client) {
       if(err) throw err;
@@ -69,6 +78,9 @@ module.exports = function(app, express, passport) {
     });
   });
 
+  /*
+   * Deletes user completely
+   */
   router.delete('/:userId', function(req, res, next) {
     mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, client) {
       if(err) throw err;
@@ -86,14 +98,6 @@ module.exports = function(app, express, passport) {
         });
       });
     });
-  });
-
-  router.get('/:userId/travelPreferences', function(req, res, next) {
-    res.send('respond with a resource');
-  });
-
-  router.get('/:userId/trips', function(req, res, next) {
-    res.send('respond with a resource');
   });
 
   return router;

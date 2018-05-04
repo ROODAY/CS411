@@ -1,6 +1,6 @@
 # Trippppr
 
-Trippppr introduces you to events, restaurants and points of interests for any location you might be visiting! In addition, Trippppr will find nearby hotels and flights to your destination to make planning trips simple! Simply enter your trip details into the search box and press search! All manner of options will be displayed for your trip, simply click save on what interests you and save the trip at the end to be able to quickly view that information later! Happy Tripppping!
+Trippppr introduces you to events, restaurants, points of interests, and flights for any location you might be visiting! Simply enter your trip details into the search box and press search! All manner of options will be displayed for your trip, simply click save on what interests you and save the trip at the end to be able to quickly view that information later! Happy Tripppping!
 
 Created by [Rudhra Raveendran](https://github.com/ROODAY), [Lucy Zhan](https://github.com/lucyyz), [Nick Pearce](https://github.com/nickjpearce), and [Teng Xu](https://github.com/TengXu).
 
@@ -9,6 +9,9 @@ Trippppr makes use of a variety of APIs to function correctly. When a user first
 
 # Issues We Ran Into
 For the most part, the APIs worked fine and as expected, but there were some limitations that forced us to reduce the scope of Trippppr. Initially we wanted the application to suggest recommendations for new trips based on currently saved trips, but to do so would require creating our own recommendation engine as it would have to be fine tuned to the criteria we collect for trips. We decided that such a large undertaking would be out of scope for the purpose of this application. Further, we wanted to include hotels from Goibibo, but their hotels endpoint required knowing a city ID that they defined in a large CSV, and they did not expose an API to find a city ID from a city name. Building our own API to retrieve a city ID from a name would require implementing a fuzzy matching search through a CSV, and again we decided this was out of scope. 
+
+# Plans for Future
+Ideally add in hote search and a custom recommendation engine. For the latter, we'd also have to implement a travel preferences option for users to better find travel options, as well as create new routes for better management of saved trips (currently saved trips can be made but not deleted, and cannot be edited).
 
 # Setup
 ### Quick deploy with Heroku

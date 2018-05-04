@@ -1,8 +1,14 @@
 module.exports = function(app, express, passport) {
   const router = express.Router();
-  var axios = require('axios');
-  var mongodb = require('mongodb');
+  const axios = require('axios');
+  const mongodb = require('mongodb');
   
+  /*
+   * Google Maps Geocode API
+   * Takes location
+   * Checks cache for matching parameters, returns if it finds anything (no expiry as we don't expect this to change)
+   * Else, call Google Maps Geocode with same parameters, cache result, and return to user
+   */
   router.post('/', function(req, res){
     mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, client) {
       if(err) throw err;
@@ -16,7 +22,6 @@ module.exports = function(app, express, passport) {
         var inprogress = false;
 
         if (docs) {
-          console.log("Found Cache Data for Lat/Long");
           res.send(docs);
         } else {
           inprogress = true;
@@ -24,17 +29,15 @@ module.exports = function(app, express, passport) {
           axios.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + req.body.location + '&key=' + process.env.GOOGLE_KEY)
           .then(function (response) {
             latlong.insertOne( {location: req.body.location, geometry: JSON.stringify(response.data.results[0].geometry)}, {}, function(err, result){
-                if (err) throw err;
-
+              if (err) throw err;
                 client.close(function (err) {
                   if(err) throw err;
                 });
             });
-            console.log(response.data.results[0])
             res.send(response.data.results[0])
           })
           .catch(function (error) {
-            console.log(error);
+            console.error(error);
             res.send(error);
           });
         }
@@ -46,7 +49,6 @@ module.exports = function(app, express, passport) {
         }
       });
     });
-      
   });
   
   return router;

@@ -5,52 +5,28 @@ html {
 
 body {
   margin: 0;
-  margin-bottom: 60px; /* Margin bottom by footer height */
+  margin-bottom: 60px;
 	background-color: white;
 	padding: 0px;
 	font-family: Geneva, Verdana, Arial, sans-serif;
 	overflow-x: hidden;
 }
 
-#coverLoader {
-      position: fixed;
-    z-index: 999999;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-items: center;
-    align-items: center;
-    background-color: rgba(0,0,0,0.8);
+hr {
+  align: center;
+  width: 90%;
 }
 
 label.btn {
   width: 100%;
 }
 
-#tripButtonWrapper {
-      text-align: center;
-    padding: 30px;
+span.free {
+  color: green;
 }
-
-#tripsPageWrapper {
-  margin-top: 80px;
-}
-
 
 .navbar {
-	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 60px; /* Set the fixed height of the footer here */
-  line-height: 60px; /* Vertically center the text there */
-  text-align: center;
-  background-color: #f5f5f5;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 .header {
@@ -80,28 +56,24 @@ label.btn {
   width: auto;
 }
 
-#cover {
-	position: relative;
-	display: flex;
-	flex-direction: column;
+.intro {
+  padding: 10% 2% 2% 2%;
+  text-align: center;
 }
 
-#search-wrapper {
-  background-color: #eee;
-	position: absolute;
-  align-self: center;
-  justify-self: center;
-  top: 50vh;
-  border-radius: 10px;
+.searchevent {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 5px;
+  text-align: center;
 }
 
-#inputWrapper {
-      display: flex;
-      align-items: center;
+.outputs {
+  position: relative;
 }
 
-#inputWrapper > * {
-  margin: 0 2px 0 2px;
+.section-wrapper {
+  padding: 1% 2% 1% 2%;
 }
 
 .card-wrapper {
@@ -109,66 +81,6 @@ label.btn {
   overflow-y: hidden;
   white-space:nowrap;  
   height: 450px;
-}
-@media (pointer: coarse) {
-  .card-wrapper::-webkit-scrollbar {
-      width: 0px;  /* remove scrollbar space */
-      background: transparent;  /* optional: just make scrollbar invisible */
-  }
-}
-  
-
-.card-text {
-  flex-grow: 1;
-  overflow-y: scroll;
-   word-break: break-word;
-    white-space: normal;
-}
-
-.card-title {
-   word-break: break-word;
-    white-space: normal;
-}
-
-.card-subtitle {
-    white-space: normal;
-}
-
-.card-text > img {
-  width: 100%;
-}
-
-.card-icon {
-      width: 30px;
-    padding: 5px;
-}
-
-.card-body {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.error-wrapper{
-      height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-span.free {
-  color: green;
-}
-
-.card-body > button {
-  flex-shrink: 0;
-}
-
-.card-link > button {
-      width: 100%;
-    margin: 5px 0 5px 0;
 }
 
 .card {
@@ -178,29 +90,63 @@ span.free {
   width: 300px !important;
 }
 
-.searchevent {
-	padding-top: 15px;
-	padding-bottom: 15px;
-	border-radius: 5px;
+.card-icon {
+  width: 30px;
+  padding: 5px;
+}
+
+.card-title {
+  word-break: break-word;
+  white-space: normal;
+}
+
+.card-subtitle {
+  white-space: normal;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-body > button {
+  flex-shrink: 0;
+}
+
+.card-text {
+  flex-grow: 1;
+  overflow-y: scroll;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.card-text > img {
+  width: 100%;
+}
+
+.card-link > button {
+  width: 100%;
+  margin: 5px 0 5px 0;
+}
+
+.error-wrapper{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
   text-align: center;
-}
-
-.intro {
-	padding: 10% 2% 2% 2%;
-  text-align: center;
-}
-
-hr{
-	align: center;
-	width: 90%;
-}
-
-.outputs {
-	position: relative;
-}
-
-.section-wrapper {
-	padding: 1% 2% 1% 2%;
+  background-color: #f5f5f5;
 }
 
 .loader {
@@ -219,6 +165,60 @@ hr{
   -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
   animation: load6 1.7s infinite ease, round 1.7s infinite ease;
 }
+
+#cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+#coverLoader {
+  position: fixed;
+  z-index: 999999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.8);
+}
+
+#tripButtonWrapper {
+  text-align: center;
+  padding: 30px;
+}
+
+#tripsPageWrapper {
+  margin-top: 80px;
+}
+
+#search-wrapper {
+  background-color: #eee;
+	position: absolute;
+  align-self: center;
+  justify-self: center;
+  top: 50vh;
+  border-radius: 10px;
+}
+
+#inputWrapper {
+  display: flex;
+  align-items: center;
+}
+
+#inputWrapper > * {
+  margin: 0 2px 0 2px;
+}
+
+@media (pointer: coarse) {
+  .card-wrapper::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+}
+
 @-webkit-keyframes load6 {
   0% {
     box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
@@ -241,6 +241,7 @@ hr{
     box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
   }
 }
+
 @keyframes load6 {
   0% {
     box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
@@ -263,6 +264,7 @@ hr{
     box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
   }
 }
+
 @-webkit-keyframes round {
   0% {
     -webkit-transform: rotate(0deg);
@@ -273,6 +275,7 @@ hr{
     transform: rotate(360deg);
   }
 }
+
 @keyframes round {
   0% {
     -webkit-transform: rotate(0deg);

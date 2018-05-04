@@ -1,7 +1,10 @@
 module.exports = function(app, express, passport) {
-  var router = express.Router();
+  const router = express.Router();
 
-  /* GET home page. */
+  /*
+   * Home Page
+   * If user is in session, pass user to view
+   */
   router.get('/', function(req, res, next) {
     if (req.user) {
       res.render('index', { title: 'Trippppr', user: req.user, userData: JSON.stringify(req.user)});
@@ -10,6 +13,10 @@ module.exports = function(app, express, passport) {
     }
   });
 
+  /*
+   * About Page
+   * If user is in session, pass user to view
+   */
   router.get('/about', function(req, res, next) {
     if (req.user) {
       res.render('about', { title: 'About', user: req.user, userData: JSON.stringify(req.user)});
@@ -18,6 +25,11 @@ module.exports = function(app, express, passport) {
     }
   });
 
+  /*
+   * Saved Trips Page
+   * Show only if user is in session, and pass user to view
+   * If no user, redirect to home
+   */
   router.get('/trips', function(req, res, next) {
     if (req.user) {
       res.render('trips', { title: 'Saved Trips', user: req.user, userData: JSON.stringify(req.user)});
@@ -26,6 +38,10 @@ module.exports = function(app, express, passport) {
     }
   });
 
+  /*
+   * Authentication Failure
+   * Informs user of authentication failure
+   */
   router.get('/authFail', function(req, res, next) {
     res.render('authFail');
   });
