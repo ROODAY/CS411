@@ -1,6 +1,9 @@
 {
     "name": "Trippppr",
     "description": "Plan your trips with ease!",
+    "website": "https://trippppr.com/",
+    "repository": "https://github.com/ROODAY/Trippppr",
+    "logo": "https://raw.githubusercontent.com/ROODAY/Trippppr/master/public/fav/android-chrome-512x512.png",
     "env": {
         "ROOT_URL": {
             "description": "Root URL for your registration system",
