@@ -113,8 +113,8 @@
   <script>
     // Get user object if it exists
     $(document).ready(function(){
-      var userObj = {{{userData}}};
-
+      window.userObj = {{{userData}}};
+      
       axios.get('/users/' + userObj.id)
       .then(function (res) {
         if (!res.data) {

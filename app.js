@@ -1,6 +1,5 @@
-// Load Environment Variables and setup Passport.js
+// Load Environment Variables
 require('dotenv').config();
-require('./config/passport.js')(passport);
 
 const createError = require('http-errors');
 const express = require('express');
@@ -10,6 +9,9 @@ const logger = require('morgan');
 const passport = require('passport');
 const hbs = require('hbs');
 const favicon = require('serve-favicon');
+
+// Setup Passport.js
+require('./config/passport.js')(passport);
 
 var app = express();
 

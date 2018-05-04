@@ -13,7 +13,7 @@
 {{#if userData}}
   <script>
   	$(document).ready(function(){
-  		var userObj = {{{userData}}};
+  		window.userObj = {{{userData}}};
 	    $("#coverLoader").removeClass("d-none");
 
 	    function getUser(obj) {

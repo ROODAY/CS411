@@ -10,7 +10,7 @@ Trippppr makes use of a variety of APIs to function correctly. When a user first
 # Issues We Ran Into
 For the most part, the APIs worked fine and as expected, but there were some limitations that forced us to reduce the scope of Trippppr. Initially we wanted the application to suggest recommendations for new trips based on currently saved trips, but to do so would require creating our own recommendation engine as it would have to be fine tuned to the criteria we collect for trips. We decided that such a large undertaking would be out of scope for the purpose of this application. Further, we wanted to include hotels from Goibibo, but their hotels endpoint required knowing a city ID that they defined in a large CSV, and they did not expose an API to find a city ID from a city name. Building our own API to retrieve a city ID from a name would require implementing a fuzzy matching search through a CSV, and again we decided this was out of scope. 
 
-# Plans for Future
+# Plans for the Future
 Ideally add in hote search and a custom recommendation engine. For the latter, we'd also have to implement a travel preferences option for users to better find travel options, as well as create new routes for better management of saved trips (currently saved trips can be made but not deleted, and cannot be edited).
 
 # Setup
