@@ -33,7 +33,8 @@ module.exports = function(app, express, passport) {
               res.send(response.data);
             })
             .catch(function (error) {
-              console.log(error);
+              console.error(error);
+              console.log("failure");
               res.send(error);
             });
           }

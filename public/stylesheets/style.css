@@ -12,6 +12,33 @@ body {
 	overflow-x: hidden;
 }
 
+#coverLoader {
+      position: fixed;
+    z-index: 999999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.8);
+}
+
+label.btn {
+  width: 100%;
+}
+
+#tripButtonWrapper {
+      text-align: center;
+    padding: 30px;
+}
+
+#tripsPageWrapper {
+  margin-top: 80px;
+}
+
+
 .navbar {
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }

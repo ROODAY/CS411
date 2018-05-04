@@ -48,13 +48,22 @@ module.exports = function(app, express, passport) {
       let db = client.db(process.env.MONGODB);
       let users = db.collection('users');
 
+
+      if (!req.body.userData.savedTrips) {
+        req.body.userData.savedTrips = [];
+      }
+
       users.replaceOne({id: req.body.userData.id}, req.body.userData, {upsert: true}, function(err, docs){
         if (err) throw err;
 
-        res.send(docs);
+        users.findOne({id: req.body.userData.id}, function(err, docs){
+          if (err) throw err;
 
-        client.close(function (err) {
-          if(err) throw err;
+          res.send(docs);
+
+          client.close(function (err) {
+            if(err) throw err;
+          });
         });
       });
     });
